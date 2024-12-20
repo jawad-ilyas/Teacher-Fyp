@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { addCourse, updateCourse } from "../features/course/CourseSlice";
 import { useEffect } from "react";
+
 const Modal = ({ isVisible, onClose, initialValues = null }) => {
     const dispatch = useDispatch();
     const { loading, error, successMessage } = useSelector((state) => state.courses);
@@ -18,7 +19,6 @@ const Modal = ({ isVisible, onClose, initialValues = null }) => {
     // Populate form fields for editing
     useEffect(() => {
         if (initialValues) {
-           
             setValue("name", initialValues.name);
             setValue("description", initialValues.description);
             setValue("category", initialValues.category);
@@ -32,8 +32,7 @@ const Modal = ({ isVisible, onClose, initialValues = null }) => {
         const formData = new FormData();
         if (data.image) formData.append("image", data.image[0]);
 
-        const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-        console.log('User Info from Local Storage:', userInfo?.data?._id);
+        const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
         formData.append("id", userInfo?.data?._id);
         formData.append("name", data.name);
@@ -65,16 +64,24 @@ const Modal = ({ isVisible, onClose, initialValues = null }) => {
                 </div>
 
                 <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
+                    {/* Course Image */}
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-medium mb-1">
-                            Course Image
+                            Course Image {initialValues ? "(Optional)" : "(Required)"}
                         </label>
                         <input
                             type="file"
-                            {...register("image")}
+                            {...register("image", {
+                                required: !initialValues && "Course image is required",
+                            })}
                             className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
                         />
+                        {errors.image && (
+                            <p className="text-red-500 text-sm">{errors.image.message}</p>
+                        )}
                     </div>
+
+                    {/* Course Name */}
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-medium mb-1">
                             Course Name
@@ -85,7 +92,12 @@ const Modal = ({ isVisible, onClose, initialValues = null }) => {
                             placeholder="Enter course name"
                             className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
                         />
+                        {errors.name && (
+                            <p className="text-red-500 text-sm">{errors.name.message}</p>
+                        )}
                     </div>
+
+                    {/* Course Category */}
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-medium mb-1">
                             Category
@@ -99,7 +111,12 @@ const Modal = ({ isVisible, onClose, initialValues = null }) => {
                             <option value="Data Science">Data Science</option>
                             <option value="Web Development">Web Development</option>
                         </select>
+                        {errors.category && (
+                            <p className="text-red-500 text-sm">{errors.category.message}</p>
+                        )}
                     </div>
+
+                    {/* Description */}
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-medium mb-1">
                             Description
@@ -110,7 +127,12 @@ const Modal = ({ isVisible, onClose, initialValues = null }) => {
                             placeholder="Enter course description"
                             className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
                         ></textarea>
+                        {errors.description && (
+                            <p className="text-red-500 text-sm">{errors.description.message}</p>
+                        )}
                     </div>
+
+                    {/* Modal Actions */}
                     <div className="flex justify-end gap-2">
                         <button
                             type="button"

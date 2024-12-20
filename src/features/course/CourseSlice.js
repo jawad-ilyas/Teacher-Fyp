@@ -71,13 +71,33 @@ export const deleteCourse = createAsyncThunk(
     }
 );
 
-// Async thunk to search for courses
+// Async thunk to search for courses (!on the query base from the drop down and filter )
 export const searchCourses = createAsyncThunk(
     "courses/searchCourses",
-    async (query, { rejectWithValue }) => {
+    async ({ searchTerm, category, teacherId }, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`${API_URL}/searchcourses?query=${query}`);
-            return response.data.data;
+            const params = new URLSearchParams();
+
+            if (searchTerm) params.append("query", searchTerm);
+            if (category) params.append("category", category);
+            if (teacherId) params.append("teacherId", teacherId); // Add teacherId to the query
+
+            const response = await axios.get(`${API_URL}/searchcourses?${params.toString()}`);
+            return response.data.data; // Return the fetched data
+        } catch (error) {
+            return rejectWithValue(error.response?.data || "Something went wrong");
+        }
+    }
+);
+
+
+// Thunk to fetch categories
+export const fetchCategories = createAsyncThunk(
+    "courses/fetchCategories",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axios.get(`${API_URL}/fetchcategories`);
+            return response.data.data; // Return the list of categories
         } catch (error) {
             return rejectWithValue(error.response?.data || "Something went wrong");
         }
@@ -117,71 +137,83 @@ const courseSlice = createSlice({
                 state.error = action.payload;
             })
 
-        // Handle fetch all courses
-        .addCase(searchCoursesByUser.pending, (state) => {
-            state.loading = true;
-            state.error = null;
-        })
-        .addCase(searchCoursesByUser.fulfilled, (state, action) => {
-            state.loading = false;
-            state.courses = action.payload; // Replace courses with fetched data
-        })
-        .addCase(searchCoursesByUser.rejected, (state, action) => {
-            state.loading = false;
-            state.error = action.payload;
-        })
+            // Handle fetch all courses
+            .addCase(searchCoursesByUser.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(searchCoursesByUser.fulfilled, (state, action) => {
+                state.loading = false;
+                state.courses = action.payload; // Replace courses with fetched data
+            })
+            .addCase(searchCoursesByUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
 
-        // Handle update course
-        .addCase(updateCourse.pending, (state) => {
-            state.loading = true;
-            state.error = null;
-            state.successMessage = null;
-        })
-        .addCase(updateCourse.fulfilled, (state, action) => {
-            state.loading = false;
-            const updatedCourseIndex = state.courses.findIndex(
-                (course) => course._id === action.payload._id
-            );
-            if (updatedCourseIndex !== -1) {
-                state.courses[updatedCourseIndex] = action.payload; // Update the course in the state
-            }
-            state.successMessage = "Course updated successfully!";
-        })
-        .addCase(updateCourse.rejected, (state, action) => {
-            state.loading = false;
-            state.error = action.payload;
-        })
+            // Handle update course
+            .addCase(updateCourse.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+                state.successMessage = null;
+            })
+            .addCase(updateCourse.fulfilled, (state, action) => {
+                state.loading = false;
+                const updatedCourseIndex = state.courses.findIndex(
+                    (course) => course._id === action.payload._id
+                );
+                if (updatedCourseIndex !== -1) {
+                    state.courses[updatedCourseIndex] = action.payload; // Update the course in the state
+                }
+                state.successMessage = "Course updated successfully!";
+            })
+            .addCase(updateCourse.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
 
-        // Handle delete course
-        .addCase(deleteCourse.pending, (state) => {
-            state.loading = true;
-            state.error = null;
-            state.successMessage = null;
-        })
-        .addCase(deleteCourse.fulfilled, (state, action) => {
-            state.loading = false;
-            state.courses = state.courses.filter((course) => course._id !== action.payload);
-            state.successMessage = "Course deleted successfully!";
-        })
-        .addCase(deleteCourse.rejected, (state, action) => {
-            state.loading = false;
-            state.error = action.payload;
-        })
+            // Handle delete course
+            .addCase(deleteCourse.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+                state.successMessage = null;
+            })
+            .addCase(deleteCourse.fulfilled, (state, action) => {
+                state.loading = false;
+                state.courses = state.courses.filter((course) => course._id !== action.payload);
+                state.successMessage = "Course deleted successfully!";
+            })
+            .addCase(deleteCourse.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
 
-        // Handle search courses
-        .addCase(searchCourses.pending, (state) => {
-            state.loading = true;
-            state.error = null;
-        })
-        .addCase(searchCourses.fulfilled, (state, action) => {
-            state.loading = false;
-            state.courses = action.payload; // Replace courses with search results
-        })
-        .addCase(searchCourses.rejected, (state, action) => {
-            state.loading = false;
-            state.error = action.payload;
-        });
-},
+            // Handle search courses
+            .addCase(searchCourses.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(searchCourses.fulfilled, (state, action) => {
+                state.loading = false;
+                state.courses = action.payload; // Replace courses with search results
+            })
+            .addCase(searchCourses.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(fetchCategories.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchCategories.fulfilled, (state, action) => {
+                state.loading = false;
+                state.categories = action.payload || []; // Ensure categories is always an array
+            })
+            .addCase(fetchCategories.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            });
+    },
 });
 
 export default courseSlice.reducer;

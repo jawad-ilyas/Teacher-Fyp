@@ -2,11 +2,13 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { addModule } from "../features/module/ModuleSlice";
+import { useNavigate } from "react-router-dom";
 
 import ModuleModal from "./moduleModel";
 const Card = ({ title, category, image, onEdit, onDelete, courseId }) => {
     const dispatch = useDispatch();
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const navigate = useNavigate();
 
     const handleAddModule = (moduleData) => {
         // Get the teacher ID from localStorage
@@ -29,7 +31,12 @@ const Card = ({ title, category, image, onEdit, onDelete, courseId }) => {
     return (
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
             {/* Course Image */}
-            <img src={image} alt={title} className="w-full h-32 object-cover" />
+            <img
+                src={image}
+                alt={title}
+                className="w-full h-32 object-cover cursor-pointer"
+                onClick={() => navigate(`/courses/${courseId}`)} // Navigate to CourseModules page
+            />
 
             {/* Course Details */}
             <div className="p-4 flex justify-between items-center">

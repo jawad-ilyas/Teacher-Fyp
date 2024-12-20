@@ -37,6 +37,15 @@ const Register = () => {
                 {error && <p className="text-red-500 text-center mb-4">{error}</p>}
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="mb-4">
+                        <label className="block text-gray-700 text-sm font-medium mb-1">Name</label>
+                        <input
+                            type="text"
+                            {...register('name', { required: 'name is required' })}
+                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                        />
+                        {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+                    </div>
+                    <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-medium mb-1">Email</label>
                         <input
                             type="email"
