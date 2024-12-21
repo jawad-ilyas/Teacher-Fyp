@@ -53,6 +53,24 @@ const Header = () => {
                                     Profile
                                 </li>
                                 <li
+                                    onClick={() => {
+                                        navigate("/questionsdashboard");
+                                        setDropdownVisible(false);
+                                    }}
+                                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                >
+                                    Question Dashboard
+                                </li>
+                                <li
+                                    onClick={() => {
+                                        navigate("/addquestion");
+                                        setDropdownVisible(false);
+                                    }}
+                                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                >
+                                    Add Question
+                                </li>
+                                <li
                                     onClick={handleLogout}
                                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-red-600"
                                 >
