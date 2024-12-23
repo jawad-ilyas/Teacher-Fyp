@@ -34,7 +34,7 @@ export const fetchModulesByCourse = createAsyncThunk(
 
             // Make API request with courseId and teacherId
             const response = await axios.get(
-                `http://localhost:5000/api/v1/modules/course/${courseId}?teacherId=${teacherId}`
+                `http://localhost:5000/api/v1/modules/course/${courseId}?teacher=${teacherId}`
             );
 
             return response.data.data; // Return fetched modules
@@ -65,10 +65,11 @@ export const updateModule = createAsyncThunk(
     "modules/updateModule",
     async (updatedModule, { rejectWithValue }) => {
         try {
-            const { id, courseId, teacherId, ...data } = updatedModule; // Extract IDs and module data
+            const { id, course, teacher, ...data } = updatedModule; // Extract IDs and module data
+            console.log("id", id, "course", course)
             const response = await axios.put(
                 `http://localhost:5000/api/v1/modules/update/${id}`,
-                { ...data, courseId, teacherId }
+                { ...data, course, teacher }
             );
             return response.data.data; // Return the updated module data
         } catch (error) {

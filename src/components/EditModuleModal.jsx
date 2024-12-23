@@ -5,6 +5,7 @@ const EditModuleModal = ({ isVisible, onClose, onSubmit, module }) => {
     const { register, handleSubmit, reset } = useForm();
 
     // Reset the form whenever the `module` prop changes
+    console.log("module", module)
     useEffect(() => {
         if (module) {
             reset({
@@ -20,7 +21,7 @@ const EditModuleModal = ({ isVisible, onClose, onSubmit, module }) => {
         onSubmit({
             ...data,
             id: module._id, // Module ID
-            courseId: module.courseId, // Course ID from module
+            course: module.course, // Course ID from module
         }); // Include the module and course IDs
         onClose(); // Close the modal after submission
     };

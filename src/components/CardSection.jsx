@@ -1,4 +1,4 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import Modal from "./Modal";
@@ -62,7 +62,7 @@ const CardSection = () => {
     if (courses.length === 0) {
         return <p className="text-center text-gray-500">No courses found.</p>;
     }
-
+    console.log("courses", courses)
     return (
         <div>
             {/* Course Cards */}
@@ -71,9 +71,11 @@ const CardSection = () => {
                     <Card
                         key={course._id}
                         courseId={course._id}
-                        title={course.name}
-                        category={course.category}
-                        image={course.imageUrl}
+                        title={course?.name}
+                        category={course?.category}
+                        description={course?.description}
+                        teacher={course?.teacher?.name}
+                        image={course?.imageUrl}
                         onEdit={() => handleEdit(course)} // Open edit modal
                         onDelete={() => handleDelete(course._id)} // Trigger delete confirmation
                     />

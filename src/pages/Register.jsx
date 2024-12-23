@@ -17,8 +17,12 @@ const Register = () => {
     const onSubmit = async (data) => {
         console.log("console .log of the login ", data)
 
+        const someDefualtValueWitheRole = {
+            ...data,
+            role: 'admin'
+        }
         try {
-            const resultAction = await dispatch(registerUser(data));
+            const resultAction = await dispatch(registerUser(someDefualtValueWitheRole));
             if (registerUser.fulfilled.match(resultAction)) {
                 // Redirect to dashboard after successful login
                 navigate('/dashboard'); // Replace '/dashboard' with your desired route

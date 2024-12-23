@@ -3,8 +3,10 @@ import { useForm } from "react-hook-form";
 const AddStudentModal = ({ isVisible, onClose, onSubmit }) => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
+    // In AddStudentModal
     const handleFormSubmit = async (data) => {
         try {
+            console.log("[AddStudentModal] Submitting student data:", data);
             await onSubmit(data);
             reset();
             onClose();
@@ -12,6 +14,7 @@ const AddStudentModal = ({ isVisible, onClose, onSubmit }) => {
             console.error("Failed to add student:", err);
         }
     };
+
 
     if (!isVisible) return null;
 

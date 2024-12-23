@@ -76,7 +76,7 @@ const CourseModules = () => {
             </button>
 
             <h1 className="text-2xl text-darkGreenColor font-semibold mb-6">
-                {course ? course.name : "Loading..."}
+               Course :  {course ? course.name : "Loading..."}
             </h1>
 
             <div className="space-y-8">

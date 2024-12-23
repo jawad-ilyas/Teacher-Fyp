@@ -19,6 +19,10 @@ import ProfilePage from './pages/ProfilePage.jsx';
 import QuestionsDashboard from './pages/QuestionsDashboard.jsx';
 import AddQuestion from './pages/AddQuestion.jsx';
 import ShowQuestion from './pages/ShowQuestion.jsx';
+import TeacherManagement from './pages/TeacherManagement.jsx';
+import TeacherProfile from './pages/TeacherProfile.jsx';
+import ShowEnrolledStudents from './pages/ShowEnrolledStudents.jsx';
+import StudentProfile from './pages/StudentProfile.jsx';
 
 const router = createBrowserRouter([
   {
@@ -61,7 +65,7 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-  
+
       {
         path: 'questionsdashboard',
         element: (
@@ -83,6 +87,41 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <ShowQuestion />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'teacherdashboard',
+        element: (
+          <ProtectedRoute>
+            <TeacherManagement />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'teachers/:teacherId',
+        element: (
+          <ProtectedRoute>
+            <TeacherProfile />
+          </ProtectedRoute>
+        ),
+      },
+      {
+
+        path: '/courses/:courseId/enrolled-students',
+        element: (
+          <ProtectedRoute>
+            <ShowEnrolledStudents />
+          </ProtectedRoute>
+        ),
+      },
+      {
+
+
+        path: '/students/:studentId',
+        element: (
+          <ProtectedRoute>
+            <StudentProfile />
           </ProtectedRoute>
         ),
       },

@@ -24,6 +24,10 @@ const Header = () => {
                         onClick={() => setDropdownVisible(!dropdownVisible)}
                     >
                         <img
+                            onClick={() => {
+                                navigate("/");
+                                setDropdownVisible(false);
+                            }}
                             src="https://via.placeholder.com/150" // Replace with real user image
                             alt="User"
                             className="w-full h-full object-cover"
@@ -69,6 +73,15 @@ const Header = () => {
                                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                                 >
                                     Add Question
+                                </li>
+                            <li
+                                    onClick={() => {
+                                        navigate("/teacherdashboard");
+                                        setDropdownVisible(false);
+                                    }}
+                                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                >
+                                    Teacher Dashboard
                                 </li>
                                 <li
                                     onClick={handleLogout}
