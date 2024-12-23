@@ -24,6 +24,7 @@ import TeacherProfile from './pages/TeacherProfile.jsx';
 import ShowEnrolledStudents from './pages/ShowEnrolledStudents.jsx';
 import StudentProfile from './pages/StudentProfile.jsx';
 import AddQuestionsIntoModule from './pages/AddQuestionsIntoModule.jsx';
+import ViewModuleQuestions from './pages/ViewModuleQuestions.jsx';
 
 const router = createBrowserRouter([
   {
@@ -128,10 +129,16 @@ const router = createBrowserRouter([
       },
       {
 
-        path: "addquestionsintomodule/:courseId/:moduleId",
+        path: "/addquestionsintomodule/:courseId/:moduleId",
         element: (< AddQuestionsIntoModule />)
 
-      }
+      },
+      {
+
+        path: "/courses/:courseId/modules/:moduleId",
+        element: (< ViewModuleQuestions />)
+
+      },
 
     ],
   },

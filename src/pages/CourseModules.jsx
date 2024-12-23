@@ -78,13 +78,16 @@ const CourseModules = () => {
     function goToAddQuestions(courseId, moduleId) {
         navigate(`/addquestionsintomodule/${courseId}/${moduleId}`);
     }
+    function goToViewQuestions(courseId, moduleId) {
+        navigate(`/courses/${courseId}/modules/${moduleId}`);
+    }
     return (
         <div className="min-h-screen bg-gray-50">
             {/* HERO SECTION */}
             <div className="relative bg-teal-600 text-white py-10 px-6 sm:px-12 rounded-b-3xl shadow-md">
                 {/* Back Button */}
                 <button
-                    onClick={() => navigate(-1)}
+                    onClick={() => navigate(`courses/${courseId}`)}
                     className="absolute top-4 left-4 bg-white text-teal-600 px-4 py-2 rounded-md shadow hover:bg-gray-100 transition"
                 >
                     Back
@@ -157,6 +160,14 @@ const CourseModules = () => {
                                 >
                                     <FaAddressBook className="mr-1" />
                                     Add
+                                </button>
+                                <button
+                                    onClick={() => goToViewQuestions(courseId, module?._id)}
+                                    className="flex items-center text-gray-600 hover:text-teal-600 text-sm"
+                                    title="Edit Module"
+                                >
+                                    <FaAddressBook className="mr-1" />
+                                    view
                                 </button>
                                 <button
                                     onClick={() => handleEdit(module)}
