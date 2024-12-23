@@ -94,7 +94,7 @@ const App = () => {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+      <main className=" ">
         <Outlet />
       </main>
     </div>
