@@ -1,84 +1,169 @@
 import { useForm } from "react-hook-form";
 
 const ModuleModal = ({ isVisible, onClose, onSubmit }) => {
-    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+    } = useForm();
 
     const submitHandler = (data) => {
         onSubmit(data); // Pass the data to the parent component
-        reset(); // Reset the form after submission
-        onClose(); // Close the modal
+        reset();        // Reset the form after submission
+        onClose();      // Close the modal
     };
 
     if (!isVisible) return null;
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
-                <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-xl font-semibold text-gray-700">Add Module</h3>
-                    <button onClick={onClose} className="text-gray-600 hover:text-gray-800">
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-[999999999999999999]">
+            <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-lg relative">
+                {/* Header */}
+                <div className="flex justify-between items-center mb-6">
+                    <h3 className="text-xl font-bold text-gray-800">Add Module</h3>
+                    <button
+                        onClick={onClose}
+                        className="text-gray-500 hover:text-gray-700 text-lg font-semibold"
+                    >
                         &#x2715;
                     </button>
                 </div>
+
+                {/* Form */}
                 <form onSubmit={handleSubmit(submitHandler)}>
                     {/* Title */}
                     <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-medium mb-1">Module Title</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Module Title
+                        </label>
                         <input
                             type="text"
                             {...register("title", { required: "Module title is required" })}
-                            className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
                             placeholder="Enter module title"
+                            className="
+                w-full
+                border
+                rounded-lg
+                px-3
+                py-2
+                focus:outline-none
+                focus:ring-2
+                focus:ring-teal-400
+              "
                         />
-                        {errors.title && <p className="text-red-500 text-sm">{errors.title.message}</p>}
+                        {errors.title && (
+                            <p className="text-red-500 text-sm">{errors.title.message}</p>
+                        )}
                     </div>
 
                     {/* Description */}
                     <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-medium mb-1">Description</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Description
+                        </label>
                         <textarea
-                            {...register("description", { required: "Description is required" })}
-                            className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
                             rows="4"
+                            {...register("description", {
+                                required: "Description is required",
+                            })}
                             placeholder="Enter module description"
+                            className="
+                w-full
+                border
+                rounded-lg
+                px-3
+                py-2
+                focus:outline-none
+                focus:ring-2
+                focus:ring-teal-400
+              "
                         ></textarea>
-                        {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
+                        {errors.description && (
+                            <p className="text-red-500 text-sm">{errors.description.message}</p>
+                        )}
                     </div>
 
                     {/* Start Time */}
                     <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-medium mb-1">Start Time</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Start Time
+                        </label>
                         <input
                             type="datetime-local"
-                            {...register("startTime", { required: "Start time is required" })}
-                            className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            {...register("startTime", {
+                                required: "Start time is required",
+                            })}
+                            className="
+                w-full
+                border
+                rounded-lg
+                px-3
+                py-2
+                focus:outline-none
+                focus:ring-2
+                focus:ring-teal-400
+              "
                         />
-                        {errors.startTime && <p className="text-red-500 text-sm">{errors.startTime.message}</p>}
+                        {errors.startTime && (
+                            <p className="text-red-500 text-sm">{errors.startTime.message}</p>
+                        )}
                     </div>
 
                     {/* End Time */}
-                    <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-medium mb-1">End Time</label>
+                    <div className="mb-6">
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                            End Time
+                        </label>
                         <input
                             type="datetime-local"
-                            {...register("endTime", { required: "End time is required" })}
-                            className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            {...register("endTime", {
+                                required: "End time is required",
+                            })}
+                            className="
+                w-full
+                border
+                rounded-lg
+                px-3
+                py-2
+                focus:outline-none
+                focus:ring-2
+                focus:ring-teal-400
+              "
                         />
-                        {errors.endTime && <p className="text-red-500 text-sm">{errors.endTime.message}</p>}
+                        {errors.endTime && (
+                            <p className="text-red-500 text-sm">{errors.endTime.message}</p>
+                        )}
                     </div>
 
-                    {/* Submit Button */}
-                    <div className="flex justify-end gap-2">
+                    {/* Actions */}
+                    <div className="flex justify-end gap-3">
                         <button
                             type="button"
                             onClick={onClose}
-                            className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 transition duration-300"
+                            className="
+                px-4
+                py-2
+                bg-gray-200
+                text-gray-700
+                rounded-md
+                hover:bg-gray-300
+                transition
+              "
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition duration-300"
+                            className="
+                px-4
+                py-2
+                bg-teal-600
+                text-white
+                rounded-md
+                hover:bg-teal-700
+                transition
+              "
                         >
                             Save Module
                         </button>

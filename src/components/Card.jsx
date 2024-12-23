@@ -75,7 +75,7 @@ const Card = ({
         transition 
         hover:shadow-xl 
         cursor-pointer 
-        pointer-events-none
+       
       "
         /* 
            We’ll handle navigation by clicking on the “hover overlay” 
