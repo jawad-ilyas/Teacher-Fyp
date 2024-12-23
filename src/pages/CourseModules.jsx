@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { FaEdit, FaTrash } from "react-icons/fa";
-
+import { FaEdit, FaTrash, FaAddressBook } from "react-icons/fa";
 import {
     fetchModulesByCourse,
     deleteModule,
@@ -76,7 +75,9 @@ const CourseModules = () => {
         );
         setEditModalVisible(false);
     };
-
+    function goToAddQuestions(courseId, moduleId) {
+        navigate(`/addquestionsintomodule/${courseId}/${moduleId}`);
+    }
     return (
         <div className="min-h-screen bg-gray-50">
             {/* HERO SECTION */}
@@ -149,6 +150,14 @@ const CourseModules = () => {
 
                             {/* Action Buttons */}
                             <div className="flex items-center space-x-4">
+                                <button
+                                    onClick={() => goToAddQuestions(courseId, module?._id)}
+                                    className="flex items-center text-gray-600 hover:text-teal-600 text-sm"
+                                    title="Edit Module"
+                                >
+                                    <FaAddressBook className="mr-1" />
+                                    Add
+                                </button>
                                 <button
                                     onClick={() => handleEdit(module)}
                                     className="flex items-center text-gray-600 hover:text-teal-600 text-sm"

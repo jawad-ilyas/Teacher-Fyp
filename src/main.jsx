@@ -23,6 +23,7 @@ import TeacherManagement from './pages/TeacherManagement.jsx';
 import TeacherProfile from './pages/TeacherProfile.jsx';
 import ShowEnrolledStudents from './pages/ShowEnrolledStudents.jsx';
 import StudentProfile from './pages/StudentProfile.jsx';
+import AddQuestionsIntoModule from './pages/AddQuestionsIntoModule.jsx';
 
 const router = createBrowserRouter([
   {
@@ -125,6 +126,12 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+      {
+
+        path: "addquestionsintomodule/:courseId/:moduleId",
+        element: (< AddQuestionsIntoModule />)
+
+      }
 
     ],
   },
