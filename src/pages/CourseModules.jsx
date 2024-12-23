@@ -1,28 +1,38 @@
-import { fetchModulesByCourse, deleteModule, updateModule } from "../features/module/moduleSlice";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import { useEffect } from "react";
+
+import {
+    fetchModulesByCourse,
+    deleteModule,
+    updateModule,
+} from "../features/module/moduleSlice";
 import EditModuleModal from "../components/EditModuleModal";
-import { useNavigate } from "react-router-dom";
+
 const CourseModules = () => {
-    const { courseId } = useParams(); // Get courseId from the URL
+    const { courseId } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    // State from Redux
     const { modules, loading, error } = useSelector((state) => state.modules);
     const { courses } = useSelector((state) => state.courses);
-    const course = courses.find((course) => course._id === courseId);
 
+    // Find the current course from Redux
+    const course = courses.find((c) => c._id === courseId);
+
+    // Local states
     const [isEditModalVisible, setEditModalVisible] = useState(false);
     const [currentModule, setCurrentModule] = useState(null);
 
+    // Fetch modules on mount
     useEffect(() => {
-        dispatch(fetchModulesByCourse(courseId)); // Fetch modules for the course
+        dispatch(fetchModulesByCourse(courseId));
     }, [dispatch, courseId]);
 
+    // Delete a module
     const handleDelete = (moduleId) => {
         Swal.fire({
             title: "Are you sure?",
@@ -40,14 +50,16 @@ const CourseModules = () => {
         });
     };
 
+    // Edit a module
     const handleEdit = (module) => {
         setCurrentModule(module);
         setEditModalVisible(true);
     };
 
+    // Submit edited module
     const handleEditSubmit = (updatedModule) => {
         const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-        const teacherId = userInfo?.data?._id; // Get teacher ID from local storage
+        const teacherId = userInfo?.data?._id;
 
         if (!teacherId) {
             Swal.fire("Error", "Teacher ID is missing. Please log in again.", "error");
@@ -57,68 +69,106 @@ const CourseModules = () => {
         dispatch(
             updateModule({
                 ...updatedModule,
-                id: currentModule._id, // Module ID
-                courseId: currentModule.courseId, // Course ID from the current module
-                teacherId, // Teacher ID
+                id: currentModule._id,
+                courseId: currentModule.courseId,
+                teacherId,
             })
         );
         setEditModalVisible(false);
     };
 
-
     return (
-        <div className="p-6">
-            <button
-                onClick={() => navigate(-1)}
-                className="mb-4 bg-darkGreenColor text-white px-4 py-2 rounded-lg hover:bg-gray-400"
-            >
-                Back111111
-            </button>
+        <div className="min-h-screen bg-gray-50">
+            {/* HERO SECTION */}
+            <div className="relative bg-teal-600 text-white py-10 px-6 sm:px-12 rounded-b-3xl shadow-md">
+                {/* Back Button */}
+                <button
+                    onClick={() => navigate(-1)}
+                    className="absolute top-4 left-4 bg-white text-teal-600 px-4 py-2 rounded-md shadow hover:bg-gray-100 transition"
+                >
+                    Back
+                </button>
 
-            <h1 className="text-2xl text-darkGreenColor font-semibold mb-6">
-               Course :  {course ? course.name : "Loading..."}
-            </h1>
+                {/* Course Title / Subtitle */}
+                <div className="mt-8 sm:mt-0">
+                    <h1 className="text-3xl sm:text-4xl font-bold">
+                        {course ? course.name : "Loading..."}
+                    </h1>
+                    <p className="mt-2 text-sm sm:text-base text-teal-100">
+                        A brief description or tagline for the course can go here.
+                    </p>
+                </div>
+            </div>
 
-            <div className="space-y-8">
-                {modules.map((module, index) => (
-                    <div key={module._id} className="bg-[#F2F5F6] rounded-lg shadow-md p-6 flex items-start space-x-4">
-                        <div className="text-darkGreenColor text-2xl font-bold flex items-center justify-center w-10 h-10 rounded-full border-2 border-darkGreenColor">
-                            {index + 1}
-                        </div>
+            {/* MAIN CONTENT: Modules */}
+            <div className="mt-8 px-6 sm:px-12">
+                {/* Heading for Modules */}
+                <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+                    Module’s elements
+                </h2>
 
-                        <div className="flex-1">
-                            <h3 className="text-2xl font-semibold text-gray-800 mb-2">
+                {loading && <p>Loading modules...</p>}
+                {error && <p className="text-red-500">{error}</p>}
+
+                {/* List of Modules as "cards" */}
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-16">
+                    {modules.map((module) => (
+                        <div
+                            key={module._id}
+                            className="
+                bg-white
+                rounded-lg
+                shadow-sm
+                p-5
+                relative
+                hover:shadow-md
+                transition
+              "
+                        >
+                            {/* Module Title */}
+                            <h3 className="text-lg font-semibold text-gray-900 mb-1">
                                 {module.title}
                             </h3>
-                            <p className="text-xl text-gray-600 mb-4">{module.description}</p>
-                            <div className="text-lg text-gray-500 space-y-1">
+
+                            {/* Description */}
+                            <p className="text-sm text-gray-600 mb-3">
+                                {module.description}
+                            </p>
+
+                            {/* Times */}
+                            <div className="text-xs text-gray-500 space-y-1 mb-4">
                                 <p>
-                                    <span className="font-bold">Start:</span>{" "}
+                                    <span className="font-semibold">Start:</span>{" "}
                                     {new Date(module.startTime).toLocaleString()}
                                 </p>
                                 <p>
-                                    <span className="font-bold">End:</span>{" "}
+                                    <span className="font-semibold">End:</span>{" "}
                                     {new Date(module.endTime).toLocaleString()}
                                 </p>
                             </div>
-                        </div>
 
-                        <div className="flex flex-row">
-                            <button
-                                onClick={() => handleEdit(module)}
-                                className="flex items-center text-black px-3 py-2 rounded-lg hover:text-blue-700"
-                            >
-                                <FaEdit className="mr-1" />
-                            </button>
-                            <button
-                                onClick={() => handleDelete(module._id)}
-                                className="flex items-center text-black px-3 py-2 rounded-lg hover:text-red-700"
-                            >
-                                <FaTrash className="mr-1" />
-                            </button>
+                            {/* Action Buttons */}
+                            <div className="flex items-center space-x-4">
+                                <button
+                                    onClick={() => handleEdit(module)}
+                                    className="flex items-center text-gray-600 hover:text-teal-600 text-sm"
+                                    title="Edit Module"
+                                >
+                                    <FaEdit className="mr-1" />
+                                    Edit
+                                </button>
+                                <button
+                                    onClick={() => handleDelete(module._id)}
+                                    className="flex items-center text-gray-600 hover:text-red-600 text-sm"
+                                    title="Delete Module"
+                                >
+                                    <FaTrash className="mr-1" />
+                                    Delete
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
 
             {/* Edit Modal */}
