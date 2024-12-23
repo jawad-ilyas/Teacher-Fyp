@@ -9,63 +9,158 @@ import {
 } from "../features/student/enrolledStudentsSlice";
 
 /**
- * ShowEnrolledStudents
- *
- * This component fetches the real list of enrolled students for a given course from the Redux slice,
- * provides a table with searching, sorting, filtering, and a "delete" action.
+ * A small dropdown for row-level actions (View, Edit, Delete).
+ * Updated to an icon or stylized button. 
  */
+const DropdownAction = ({ onView, onEdit, onDelete }) => {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <div className="relative">
+            <button
+                onClick={() => setOpen((prev) => !prev)}
+                className="
+          flex
+          items-center
+          justify-center
+          w-8
+          h-8
+          bg-gray-100
+          text-gray-600
+          rounded-full
+          hover:bg-gray-200
+          transition
+        "
+                title="Actions"
+            >
+                •••
+            </button>
+            {open && (
+                <div
+                    className="
+            absolute
+            right-0
+            mt-1
+            w-36
+            bg-white
+            border
+            border-gray-200
+            rounded
+            shadow-lg
+            z-10
+          "
+                >
+                    <button
+                        onClick={() => {
+                            setOpen(false);
+                            onView();
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-50"
+                    >
+                        View Info
+                    </button>
+                    <button
+                        onClick={() => {
+                            setOpen(false);
+                            onEdit();
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-50"
+                    >
+                        Edit Info
+                    </button>
+                    <button
+                        onClick={() => {
+                            setOpen(false);
+                            onDelete();
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50"
+                    >
+                        Delete
+                    </button>
+                </div>
+            )}
+        </div>
+    );
+};
+
+/**
+ * Optional: A small badge component if you want color-coded status.
+ * If you don't want color coding, you can remove or simplify this.
+ */
+const StatusBadge = ({ status }) => {
+    let bgColor = "bg-gray-200";
+    let textColor = "text-gray-700";
+    const label = status; // e.g., "active" or "inactive"
+
+    if (status === "active") {
+        bgColor = "bg-green-100";
+        textColor = "text-green-700";
+    } else if (status === "inactive") {
+        bgColor = "bg-red-100";
+        textColor = "text-red-700";
+    }
+
+    return (
+        <span
+            className={`
+        px-2
+        py-1
+        rounded-full
+        text-xs
+        font-medium
+        capitalize
+        ${bgColor}
+        ${textColor}
+      `}
+        >
+            {label}
+        </span>
+    );
+};
+
 const ShowEnrolledStudents = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { courseId } = useParams(); // from /courses/:courseId/enrolled-students
+    const { courseId } = useParams();
 
-    // Redux state from enrolledStudentsSlice
-    const { students, loading, error } = useSelector((state) => state.enrolledStudents);
+    // Redux state
+    const { students, loading, error } = useSelector(
+        (state) => state.enrolledStudents
+    );
 
-    // Local states for filtering, sorting, searching
+    // Local states for search/filter/sort
     const [searchTerm, setSearchTerm] = useState("");
     const [sortOption, setSortOption] = useState("nameAsc");
     const [statusFilter, setStatusFilter] = useState("all");
 
-    // On mount or courseId change, fetch from the server
+    // Fetch data on mount
     useEffect(() => {
         dispatch(fetchEnrolledStudents(courseId)).then((res) => {
             console.log("Enrolled students data:", res);
         });
     }, [courseId, dispatch]);
 
-
-    // “Back” button
+    // Handlers
     const handleBack = () => {
         navigate(-1);
     };
-
-    // Searching
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
     };
-
-    // Sorting
     const handleSortChange = (e) => {
         setSortOption(e.target.value);
     };
-
-    // Filter by status
     const handleStatusFilterChange = (e) => {
         setStatusFilter(e.target.value);
     };
 
-    // In ShowEnrolledStudents
     const handleViewInfo = (studentId) => {
         navigate(`/students/${studentId}`);
     };
     const handleEditInfo = (studentId) => {
         navigate(`/students/${studentId}`);
-        // or any logic you like
     };
 
-
-    // Delete / Remove
     const handleDelete = (studentId) => {
         Swal.fire({
             title: "Are you sure?",
@@ -90,7 +185,6 @@ const ShowEnrolledStudents = () => {
         });
     };
 
-    // If loading or error
     if (loading) {
         return <p className="p-4">Loading enrolled students...</p>;
     }
@@ -98,28 +192,24 @@ const ShowEnrolledStudents = () => {
         return <p className="p-4 text-red-500">{error}</p>;
     }
 
-    // We have an array of objects: { student: { _id, name, email, role }, status: ... }
-    // So let's rename them in the sort/filter logic for clarity
+    // Filter + Search + Sort
     const filteredStudents = students
+        // Filter by status
         .filter((enroll) => {
-            const stStatus = enroll.status; // e.g. "active", "inactive"
-            if (statusFilter === "all") return true;
-            if (statusFilter === "active") return stStatus === "active";
-            if (statusFilter === "inactive") return stStatus === "inactive";
-            return true;
+            if (!enroll?.student) return false;
+            if (statusFilter === "active") return enroll.status === "active";
+            if (statusFilter === "inactive") return enroll.status === "inactive";
+            return true; // "all" => no filter
         })
-        .filter((enroll) => enroll && enroll.student)
+        // Search name/email
         .filter((enroll) => {
-            const term = (searchTerm || "").toLowerCase();
+            const term = searchTerm.toLowerCase();
             const name = enroll.student.name?.toLowerCase() || "";
             const email = enroll.student.email?.toLowerCase() || "";
             return name.includes(term) || email.includes(term);
         })
-
+        // Sort
         .sort((a, b) => {
-            // a.student.name, a.enrolledDate ? etc.
-            // If your backend doesn't store enrolledDate in the subdoc, you might not have a date to sort on
-            // For demonstration, assume there's an "enrolledDate" field in the main doc
             if (sortOption === "nameAsc") {
                 return a.student.name?.localeCompare(b.student.name);
             } else if (sortOption === "nameDesc") {
@@ -134,35 +224,79 @@ const ShowEnrolledStudents = () => {
 
     return (
         <div className="min-h-screen bg-gray-50">
-            {/* Header / Top bar */}
-            <div className="flex items-center px-4 py-3 bg-white shadow">
-                <button
-                    onClick={handleBack}
-                    className="mr-3 text-blue-600 font-bold hover:underline"
-                >
-                    &larr; Back
-                </button>
-                <h1 className="text-xl font-semibold">Enrolled Students</h1>
+            {/* TOP BAR */}
+            <div className="flex items-center justify-between p-4 bg-white shadow-sm">
+                <div className="flex items-center space-x-3">
+                    <button
+                        onClick={handleBack}
+                        className="text-sm font-medium text-teal-600 hover:underline"
+                    >
+                        &larr; Back
+                    </button>
+                    <h1 className="text-xl font-semibold text-gray-800">
+                        Enrolled Students
+                    </h1>
+                </div>
             </div>
 
-            {/* Filters Row */}
-            <div className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
-                {/* Left: Search and Filter */}
-                <div className="flex items-center space-x-4">
-                    {/* Search */}
+            {/* SEARCH / FILTER / SORT BAR */}
+            <div
+                className="
+          flex flex-col
+          sm:flex-row
+          items-center
+          justify-between
+          bg-white
+          shadow
+          rounded-lg
+          mx-4
+          mt-4
+          px-4
+          py-3
+          space-y-3
+          sm:space-y-0
+        "
+            >
+                {/* Search input */}
+                <div className="w-full sm:w-auto flex items-center">
                     <input
                         type="text"
-                        placeholder="Search by name or email..."
+                        placeholder="Search name or email..."
                         value={searchTerm}
                         onChange={handleSearchChange}
-                        className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="
+              w-full
+              sm:w-64
+              border
+              border-gray-300
+              rounded-md
+              px-3
+              py-2
+              focus:outline-none
+              focus:ring-2
+              focus:ring-teal-500
+              text-sm
+              placeholder-gray-400
+            "
                     />
+                </div>
 
-                    {/* Status Filter */}
+                {/* Status Filter */}
+                <div className="flex items-center space-x-2">
                     <select
                         value={statusFilter}
                         onChange={handleStatusFilterChange}
-                        className="border border-gray-300 rounded-lg px-3 py-2"
+                        className="
+              border
+              border-gray-300
+              rounded-md
+              px-3
+              py-2
+              focus:outline-none
+              focus:ring-2
+              focus:ring-teal-500
+              text-sm
+            "
                     >
                         <option value="all">All Status</option>
                         <option value="active">Active</option>
@@ -170,55 +304,71 @@ const ShowEnrolledStudents = () => {
                     </select>
                 </div>
 
-                {/* Right: Sorting */}
+                {/* Sort Option */}
                 <div className="flex items-center space-x-2">
-                    <label className="font-medium text-gray-700">Sort by:</label>
+                    <label className="text-sm text-gray-600">Sort by:</label>
                     <select
                         value={sortOption}
                         onChange={handleSortChange}
-                        className="border border-gray-300 rounded-lg px-3 py-2"
+                        className="
+              border
+              border-gray-300
+              rounded-md
+              px-3
+              py-2
+              focus:outline-none
+              focus:ring-2
+              focus:ring-teal-500
+              text-sm
+            "
                     >
                         <option value="nameAsc">Name (A-Z)</option>
                         <option value="nameDesc">Name (Z-A)</option>
-                        <option value="dateAsc">Enrolled Date (Oldest)</option>
-                        <option value="dateDesc">Enrolled Date (Newest)</option>
+                        <option value="dateAsc">Enroll Date (Oldest)</option>
+                        <option value="dateDesc">Enroll Date (Newest)</option>
                     </select>
                 </div>
             </div>
 
-            {/* Students Table */}
-            <div className="p-4">
-                <div className="overflow-x-auto">
-                    <table className="min-w-full bg-white border rounded-lg shadow">
-                        <thead className="bg-gray-100 border-b">
-                            <tr>
-                                <th className="px-4 py-2 text-left text-gray-600 font-medium">Name</th>
-                                <th className="px-4 py-2 text-left text-gray-600 font-medium">Email</th>
-                                <th className="px-4 py-2 text-left text-gray-600 font-medium">Enrolled Date</th>
-                                <th className="px-4 py-2 text-left text-gray-600 font-medium">Status</th>
-                                <th className="px-4 py-2 text-left text-gray-600 font-medium">Actions</th>
+            {/* SINGLE TABLE */}
+            <div className="mt-4 px-4">
+                <div className="overflow-x-auto bg-white shadow-sm rounded-lg">
+                    <table className="min-w-full text-sm">
+                        <thead>
+                            <tr className="bg-gray-100 text-gray-600 uppercase text-xs tracking-wider">
+                                <th className="px-4 py-3 text-left">Name</th>
+                                <th className="px-4 py-3 text-left">Email</th>
+                                <th className="px-4 py-3 text-left">Enrolled Date</th>
+                                <th className="px-4 py-3 text-left">Status</th>
+                                <th className="px-4 py-3 text-left">Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody className="divide-y divide-gray-200">
                             {filteredStudents.map((enroll) => (
-                                <tr key={enroll.student._id} className="border-b hover:bg-gray-50">
-                                    <td className="px-4 py-2">{enroll.student.name}</td>
-                                    <td className="px-4 py-2">{enroll.student.email}</td>
-                                    <td className="px-4 py-2">{enroll.enrolledDate || "N/A"}</td>
-                                    <td className="px-4 py-2 capitalize">{enroll.status}</td>
-                                    <td className="px-4 py-2">
-                                        {/* Actions Dropdown or buttons */}
-                                        <div className="relative inline-block text-left">
-                                            <DropdownAction
-                                                onView={() => handleViewInfo(enroll.student._id)}
-                                                onEdit={() => handleEditInfo(enroll.student._id)}
-                                                onDelete={() => handleDelete(enroll.student._id)}
-                                            />
-                                        </div>
+                                <tr key={enroll.student._id} className="hover:bg-gray-50">
+                                    <td className="px-4 py-3 font-medium text-gray-800">
+                                        {enroll.student.name}
+                                    </td>
+                                    <td className="px-4 py-3 text-gray-600">
+                                        {enroll.student.email}
+                                    </td>
+                                    <td className="px-4 py-3 text-gray-600">
+                                        {enroll.enrolledDate || "N/A"}
+                                    </td>
+                                    <td className="px-4 py-3">
+                                        <StatusBadge status={enroll.status} />
+                                    </td>
+                                    <td className="px-4 py-3">
+                                        <DropdownAction
+                                            onView={() => handleViewInfo(enroll.student._id)}
+                                            onEdit={() => handleEditInfo(enroll.student._id)}
+                                            onDelete={() => handleDelete(enroll.student._id)}
+                                        />
                                     </td>
                                 </tr>
                             ))}
 
+                            {/* "No students found" row */}
                             {filteredStudents.length === 0 && (
                                 <tr>
                                     <td colSpan={5} className="text-center text-gray-500 py-4">
@@ -235,50 +385,3 @@ const ShowEnrolledStudents = () => {
 };
 
 export default ShowEnrolledStudents;
-
-
-const DropdownAction = ({ onView, onEdit, onDelete }) => {
-    const [open, setOpen] = useState(false);
-
-    return (
-        <div className="relative">
-            <button
-                onClick={() => setOpen((prev) => !prev)}
-                className="bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded"
-            >
-                Actions
-            </button>
-            {open && (
-                <div className="absolute right-0 mt-1 w-32 bg-white border border-gray-200 rounded shadow-lg z-10">
-                    <button
-                        onClick={() => {
-                            setOpen(false);
-                            onView();
-                        }}
-                        className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
-                    >
-                        View Info
-                    </button>
-                    <button
-                        onClick={() => {
-                            setOpen(false);
-                            onEdit();
-                        }}
-                        className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
-                    >
-                        Edit Info
-                    </button>
-                    <button
-                        onClick={() => {
-                            setOpen(false);
-                            onDelete();
-                        }}
-                        className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
-                    >
-                        Delete
-                    </button>
-                </div>
-            )}
-        </div>
-    );
-};

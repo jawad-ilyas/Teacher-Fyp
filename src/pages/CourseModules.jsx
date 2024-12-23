@@ -72,7 +72,7 @@ const CourseModules = () => {
                 onClick={() => navigate(-1)}
                 className="mb-4 bg-darkGreenColor text-white px-4 py-2 rounded-lg hover:bg-gray-400"
             >
-                Back
+                Back111111
             </button>
 
             <h1 className="text-2xl text-darkGreenColor font-semibold mb-6">

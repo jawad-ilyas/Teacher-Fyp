@@ -1,21 +1,15 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    FaBars,        // "Structure" icon example
-    FaThLarge,     // "Grid" icon example
-    FaFilter,      // Filter icon
-    FaSort,        // Sort icon
-    FaPlus,        // Action icon (Add Course)
-    FaSync,        // Action icon (Fetch All)
-    FaUser,        // Action icon (Fetch My Courses)
-    FaEllipsisH,   // "More" icon
-    FaSearch,      // For search
-    FaCog,         // (Optional) for settings
+    FaBars,       // "Structure" icon
+    FaUser,       // "My Courses" icon
+    FaFilter,     // Filter icon
+    FaPlus,       // Add Course
+    FaSync,       // Refresh
+    FaSearch,     // Search
 } from "react-icons/fa";
 
 import Modal from "./Modal";
-
-// Actions from your Redux slice:
 import {
     searchCourses,
     fetchCategories,
@@ -31,11 +25,9 @@ const SearchFilter = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
     const [selectedTeacherId, setSelectedTeacherId] = useState("");
-
-    // For toggling a “filter” dropdown (category, teacher, etc.)
     const [showFilterMenu, setShowFilterMenu] = useState(false);
 
-    // Get user info from localStorage
+    // Read user info
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     const userId = userInfo?.data?._id;
     const userRole = userInfo?.data?.role; // "admin", "teacher", "student", etc.
@@ -48,16 +40,18 @@ const SearchFilter = () => {
         error: categoriesError,
     } = useSelector((state) => state.courses);
 
-    // Fetch categories and teachers on mount
+    // Fetch categories & teachers on mount
     useEffect(() => {
         dispatch(fetchCategories());
         dispatch(fetchTeachers());
     }, [dispatch]);
 
-    // === Existing Handler Logic (same as your code) ===
+    // Existing handler: Fetch All
     const handleFetchAllCourses = () => {
         dispatch(fetchAllCourses());
     };
+
+    // Existing handler: Fetch My Courses
     const handleFetchMyCourses = () => {
         if (!userId) {
             alert("User information is missing. Please log in again.");
@@ -66,25 +60,22 @@ const SearchFilter = () => {
         dispatch(searchCourses({ teacherId: userId }));
     };
 
-    // “Auto search” on changes
+    // Auto-search on changes (same logic)
     useEffect(() => {
         const queryObject = {};
 
-        // Search term
         if (searchQuery.trim()) {
             queryObject.searchTerm = searchQuery.trim();
         }
-        // Category
         if (selectedCategory) {
             queryObject.category = selectedCategory;
         }
-        // Teacher logic
+
         if (userRole === "admin") {
             if (selectedTeacherId) {
                 queryObject.teacherId = selectedTeacherId;
             }
         } else if (userRole === "teacher") {
-            // Teacher sees their own courses
             if (userId) {
                 queryObject.teacherId = userId;
             }
@@ -105,6 +96,7 @@ const SearchFilter = () => {
         const queryObject = {};
         if (searchQuery.trim()) queryObject.searchTerm = searchQuery.trim();
         if (selectedCategory) queryObject.category = selectedCategory;
+
         if (userRole === "admin" && selectedTeacherId) {
             queryObject.teacherId = selectedTeacherId;
         } else if (userRole === "teacher" && userId) {
@@ -120,38 +112,36 @@ const SearchFilter = () => {
         items-center
         justify-between
         bg-white
-        rounded-full
-        shadow-md
+        shadow-sm
+        rounded-lg
         px-4
         py-2
-        space-x-2
+        space-x-4
       "
         >
-            {/* LEFT ICONS (Structure, Grid, Filter, Sort, etc.) */}
-            <div className="flex items-center space-x-4">
-                {/* structure */}
+            {/* LEFT ICON GROUP */}
+            <div className="flex items-center space-x-3">
+                {/* Fetch All (Structure) */}
                 <button
-                    title="Structure (Fetch All Courses)"
+                    title="Fetch All Courses"
                     onClick={handleFetchAllCourses}
                     className="
-            flex items-center
             text-gray-600
-            hover:text-blue-600
+            hover:text-teal-600
             transition
           "
                 >
                     <FaBars className="w-5 h-5" />
                 </button>
 
-                {/* grid */}
+                {/* My Courses (admin/teacher only) */}
                 {(userRole === "admin" || userRole === "teacher") && (
                     <button
                         title="My Courses"
                         onClick={handleFetchMyCourses}
                         className="
-              flex items-center
               text-gray-600
-              hover:text-blue-600
+              hover:text-teal-600
               transition
             "
                     >
@@ -159,15 +149,14 @@ const SearchFilter = () => {
                     </button>
                 )}
 
-                {/* filter */}
+                {/* Filter Icon -> toggles filter dropdown */}
                 <div className="relative">
                     <button
                         onClick={() => setShowFilterMenu(!showFilterMenu)}
                         title="Filter"
                         className="
-              flex items-center
               text-gray-600
-              hover:text-blue-600
+              hover:text-teal-600
               transition
             "
                     >
@@ -183,8 +172,8 @@ const SearchFilter = () => {
                 left-0
                 bg-white
                 p-4
-                shadow-lg
-                rounded-xl
+                shadow-md
+                rounded-lg
                 z-10
                 space-y-3
                 w-64
@@ -201,9 +190,11 @@ const SearchFilter = () => {
                     px-3
                     py-2
                     border
-                    rounded-lg
+                    rounded-md
                     text-sm
                     focus:outline-none
+                    focus:ring-1
+                    focus:ring-teal-500
                   "
                                     value={selectedCategory}
                                     onChange={(e) =>
@@ -241,9 +232,11 @@ const SearchFilter = () => {
                       px-3
                       py-2
                       border
-                      rounded-lg
+                      rounded-md
                       text-sm
                       focus:outline-none
+                      focus:ring-1
+                      focus:ring-teal-500
                     "
                                         value={selectedTeacherId}
                                         onChange={(e) => setSelectedTeacherId(e.target.value)}
@@ -265,44 +258,35 @@ const SearchFilter = () => {
                     )}
                 </div>
 
-                {/* sort (stubbed - no functionality in your code yet) */}
-           
-
-                {/* action -> Add Course Modal */}
+                {/* Add Course */}
                 <button
                     onClick={() => setShowModal(true)}
                     title="Add Course"
                     className="
-            flex items-center
             text-gray-600
-            hover:text-blue-600
+            hover:text-teal-600
             transition
           "
                 >
                     <FaPlus className="w-5 h-5" />
                 </button>
 
-                {/* another action -> Refresh All Courses */}
+                {/* Refresh All */}
                 <button
                     onClick={handleFetchAllCourses}
-                    title="Refresh / Fetch All Courses"
+                    title="Refresh All Courses"
                     className="
-            flex items-center
             text-gray-600
-            hover:text-blue-600
+            hover:text-teal-600
             transition
           "
                 >
                     <FaSync className="w-5 h-5" />
                 </button>
-
-                {/* optionally, “more” menu if you want a dropdown for additional actions */}
-               
             </div>
 
-            {/* RIGHT SIDE: SEARCH & SETTINGS (optional) */}
-            <div className="flex items-center space-x-3">
-                {/* Search Input */}
+            {/* RIGHT SIDE: SEARCH */}
+            <div className="flex items-center space-x-2">
                 <div className="relative">
                     <FaSearch
                         onClick={handleSearch}
@@ -319,15 +303,16 @@ const SearchFilter = () => {
               pr-3
               py-1
               border
-              rounded-full
+              border-gray-300
+              rounded-md
               focus:outline-none
-              focus:border-blue-500
+              focus:ring-1
+              focus:ring-teal-500
               text-sm
+              placeholder-gray-400
             "
                     />
                 </div>
-
-               
             </div>
 
             {/* MODAL for “Add to Course” */}

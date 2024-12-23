@@ -7,7 +7,10 @@ import { fetchUserProfile, updateUserProfile } from "../features/userProfile/Use
 const ProfilePage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate(); // For navigation
-    const { user, loading, error, successMessage } = useSelector((state) => state.userProfile);
+
+    const { user, loading, error, successMessage } = useSelector(
+        (state) => state.userProfile
+    );
 
     const {
         register,
@@ -42,48 +45,84 @@ const ProfilePage = () => {
     };
 
     return (
-        <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+        <div className="relative max-w-xl mx-auto mt-10 px-6 py-8 bg-white shadow-md rounded-lg">
+            {/* Back Button (top-left corner) */}
             <button
-                onClick={() => navigate(-1)} // Navigate back to the previous page
-                className="mb-4 bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400"
+                onClick={() => navigate(-1)}
+                className="absolute top-4 left-4 text-gray-600 bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-md transition"
             >
-                Back
+                &larr; Back
             </button>
 
-            <h1 className="text-2xl font-semibold text-gray-700 mb-6">My Profile</h1>
+            {/* Heading */}
+            <h1 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
+                My Profile
+            </h1>
 
-            {error && <p className="text-red-500 mb-4">{error}</p>}
-            {successMessage && <p className="text-green-500 mb-4">{successMessage}</p>}
+            {/* Error or Success Messages */}
+            {error && (
+                <p className="text-red-500 mb-4 text-center">{error}</p>
+            )}
+            {successMessage && (
+                <p className="text-green-500 mb-4 text-center">{successMessage}</p>
+            )}
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            {/* Form */}
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                 {/* Name Field */}
                 <div>
-                    <label className="block text-gray-700 font-medium mb-1">Name</label>
+                    <label className="block text-gray-700 font-medium mb-1">
+                        Name
+                    </label>
                     <input
                         type="text"
                         {...register("name", { required: "Name is required" })}
-                        className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                        className="
+              w-full
+              border
+              rounded-md
+              px-4
+              py-2
+              focus:outline-none
+              focus:ring-2
+              focus:ring-blue-500
+            "
                         placeholder="Enter your name"
                     />
                     {errors.name && (
-                        <p className="text-red-500 text-sm">{errors.name.message}</p>
+                        <p className="text-red-500 text-sm mt-1">
+                            {errors.name.message}
+                        </p>
                     )}
                 </div>
 
-                {/* Email Field */}
+                {/* Email Field (read-only) */}
                 <div>
-                    <label className="block text-gray-700 font-medium mb-1">Email</label>
+                    <label className="block text-gray-700 font-medium mb-1">
+                        Email
+                    </label>
                     <input
                         type="email"
                         {...register("email")}
-                        className="w-full border rounded-lg px-4 py-2 bg-gray-100"
+                        className="
+              w-full
+              border
+              rounded-md
+              px-4
+              py-2
+              bg-gray-100
+              text-gray-500
+              cursor-not-allowed
+            "
                         readOnly
                     />
                 </div>
 
                 {/* Password Field */}
                 <div>
-                    <label className="block text-gray-700 font-medium mb-1">New Password</label>
+                    <label className="block text-gray-700 font-medium mb-1">
+                        New Password
+                    </label>
                     <input
                         type="password"
                         {...register("password", {
@@ -92,20 +131,41 @@ const ProfilePage = () => {
                                 message: "Password must be at least 6 characters",
                             },
                         })}
-                        className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                        className="
+              w-full
+              border
+              rounded-md
+              px-4
+              py-2
+              focus:outline-none
+              focus:ring-2
+              focus:ring-blue-500
+            "
                         placeholder="Enter a new password (optional)"
                     />
                     {errors.password && (
-                        <p className="text-red-500 text-sm">{errors.password.message}</p>
+                        <p className="text-red-500 text-sm mt-1">
+                            {errors.password.message}
+                        </p>
                     )}
                 </div>
 
                 {/* Submit Button */}
-                <div className="flex justify-end">
+                <div className="text-right">
                     <button
                         type="submit"
                         disabled={loading}
-                        className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition duration-300"
+                        className="
+              px-5
+              py-2
+              bg-teal-600
+              text-white
+              font-medium
+              rounded-md
+              hover:bg-teal-700
+              transition
+              disabled:opacity-50
+            "
                     >
                         {loading ? "Updating..." : "Update Profile"}
                     </button>
