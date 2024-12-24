@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const ModuleModal = ({ isVisible, onClose, onSubmit }) => {
     const {
@@ -8,10 +9,16 @@ const ModuleModal = ({ isVisible, onClose, onSubmit }) => {
         reset,
     } = useForm();
 
-    const submitHandler = (data) => {
-        onSubmit(data); // Pass the data to the parent component
-        reset();        // Reset the form after submission
-        onClose();      // Close the modal
+    const submitHandler = async (data) => {
+        try {
+            await onSubmit(data);
+            toast.success("A new module has been created!");
+            reset();
+            onClose();
+        } catch (err) {
+            console.error("Failed to create module:", err);
+            toast.error("Error creating module");
+        }
     };
 
     if (!isVisible) return null;
