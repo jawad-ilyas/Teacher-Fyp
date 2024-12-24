@@ -25,6 +25,8 @@ import ShowEnrolledStudents from './pages/ShowEnrolledStudents.jsx';
 import StudentProfile from './pages/StudentProfile.jsx';
 import AddQuestionsIntoModule from './pages/AddQuestionsIntoModule.jsx';
 import ViewModuleQuestions from './pages/ViewModuleQuestions.jsx';
+import AboutUs from './pages/AboutUs.jsx';
+import Resources from './pages/Resources.jsx';
 
 const router = createBrowserRouter([
   {
@@ -137,6 +139,18 @@ const router = createBrowserRouter([
 
         path: "/courses/:courseId/modules/:moduleId",
         element: (< ViewModuleQuestions />)
+
+      },
+      {
+
+        path: "aboutus",
+        element: (< AboutUs />)
+
+      },
+      {
+
+        path: "resources",
+        element: (< Resources />)
 
       },
 

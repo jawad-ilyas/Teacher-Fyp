@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
     const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -14,14 +14,8 @@ const Header = () => {
 
     return (
         <header className="flex justify-between items-center p-4 border-b shadow-sm relative">
-            <h1 className="text-2xl font-bold text-gray-800">Logo</h1>
-            <div className="space-x-2">
-                    <Link to={"/"} className="text-gray-600 font-medium cursor-pointer">Home</Link>
-                    <Link to={"/aboutus"} className="text-gray-600 font-medium cursor-pointer">About Us</Link>
-                    <Link to={"/resources"} className="text-gray-600 font-medium cursor-pointer">Resources</Link>
-                
-            </div>
             
+            <h1 className="text-2xl font-bold text-gray-800">Logo</h1>
             <nav className="flex items-center space-x-4">
                 <p className="text-gray-600 font-medium cursor-pointer">Courses</p>
                 <div className="relative">
@@ -81,7 +75,7 @@ const Header = () => {
                                 >
                                     Add Question
                                 </li>
-                                <li
+                            <li
                                     onClick={() => {
                                         navigate("/teacherdashboard");
                                         setDropdownVisible(false);
@@ -101,6 +95,7 @@ const Header = () => {
                     )}
                 </div>
             </nav>
+            
         </header>
     );
 };
