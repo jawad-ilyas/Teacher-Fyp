@@ -93,7 +93,7 @@ const AddQuestionsIntoModuleDashboard = () => {
     };
 
     return (
-        <div className="min-h-screen w-full bg-gray-900 text-gray-200 font-mono">
+        <div className="min-h-screen w-full pt-20 bg-gray-900 text-gray-200 font-mono">
             {/* Header */}
             <div className="flex justify-between items-center px-6 py-4 bg-gray-800 shadow-md">
                 <h1 className="text-xl font-bold text-green-400">

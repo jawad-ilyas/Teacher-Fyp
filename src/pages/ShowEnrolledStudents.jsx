@@ -223,7 +223,7 @@ const ShowEnrolledStudents = () => {
         });
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen pt-20 bg-gray-50">
             {/* TOP BAR */}
             <div className="flex items-center justify-between p-4 bg-white shadow-sm">
                 <div className="flex items-center space-x-3">

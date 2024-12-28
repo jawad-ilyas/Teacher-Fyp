@@ -1,12 +1,38 @@
 
+import heroImage from "../assets/staticImages/heroimage.png"
+import aboutus1 from "../assets/staticImages/aboutus1.png"
+import aboutus2 from "../assets/staticImages/aboutus2.png"
+import aboutus3 from "../assets/staticImages/aboutus3.png"
+import aboutus4 from "../assets/staticImages/aboutus4.png"
+
+
 const AboutUs = () => {
     return (
         <div className="font-sans text-gray-700">
-         
+            {/* AI WRITING DETECTION SECTION */}
+            {/* HERO SECTION */}
+            <section className="bg-gray-50 py-12 md:py-40">
+                <div className="container mx-auto px-4 flex flex-col md:flex-row items-center">
+                    <div className="flex-1 md:mr-8">
+                        <h1 className="text-3xl md:text-4xl font-bold mb-4">
+                           About us
+                        </h1>
+                        <p className="text-gray-600 mb-6">
+                            Stay Informed with the Latest Blogs, Case Studies, and Whitepapers
+                        </p>
+                        <button className="bg-teal-600 text-white px-6 py-2 rounded hover:bg-teal-700 transition">
+                            Discover More
+                        </button>
+                    </div>
+                    <div className="flex-1 flex justify-center mt-8 md:mt-0">
+
+                    </div>
+                </div>
+            </section>
 
             {/* HERO SECTION */}
             <section className="bg-gray-50 py-12 md:py-20">
-                <div className="container mx-auto px-4 flex flex-col-reverse lg:flex-row items-center">
+                <div className="container mx-auto px-4 flex flex-col-reverse lg:flex-row-reverse items-center">
                     {/* Left content */}
                     <div className="flex-1 mt-8 lg:mt-0">
                         <h1 className="text-3xl md:text-4xl font-bold mb-4">
@@ -27,16 +53,12 @@ const AboutUs = () => {
 
                     {/* Right image */}
                     <div className="flex-1 flex justify-center lg:justify-end mb-8 lg:mb-0">
-                        <img
-                            src="https://via.placeholder.com/400x300?text=About+Us+Hero"
-                            alt="About Us Hero"
-                            className="rounded shadow-md"
-                        />
+                        <img src={aboutus1}              alt="About Us Hero"  className="rounded shadow-md"/>
                     </div>
                 </div>
             </section>
-
-            {/* HIGHLIGHTED SECTIONS */}
+      
+       
             <section className="container mx-auto px-4 py-12 md:py-16">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-12">
                     {/* Text */}
@@ -55,10 +77,9 @@ const AboutUs = () => {
                     {/* Image */}
                     <div className="order-1 md:order-2 flex justify-center">
                         <img
-                            src="https://via.placeholder.com/350x250?text=Mission"
+                            src={aboutus2}
                             alt="Mission"
-                            className="rounded shadow-md"
-                        />
+                            className="rounded shadow-md" />
                     </div>
                 </div>
 
@@ -66,7 +87,7 @@ const AboutUs = () => {
                     {/* Image */}
                     <div className="flex justify-center">
                         <img
-                            src="https://via.placeholder.com/350x250?text=Integration"
+                            src={aboutus4}
                             alt="Integration"
                             className="rounded shadow-md"
                         />
@@ -102,7 +123,7 @@ const AboutUs = () => {
                     {/* Image */}
                     <div className="flex justify-center">
                         <img
-                            src="https://via.placeholder.com/350x250?text=AI+Approach"
+                            src={aboutus3}
                             alt="AI Approach"
                             className="rounded shadow-md"
                         />

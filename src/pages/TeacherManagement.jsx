@@ -49,7 +49,7 @@ const TeacherManagement = () => {
     };
 
     return (
-        <div className="container mx-auto p-4">
+        <div className="container pt-24 mx-auto p-4">
             {/* Filter UI */}
             <div className="  flex
         items-center
@@ -89,7 +89,7 @@ const TeacherManagement = () => {
                 </div>
             </div>
 
-            <h1 className="text-2xl font-semibold mb-4">Find a Teacher</h1>
+            <h1 className="text-2xl font-semibold mb-4 pt-4">Find a Teacher</h1>
 
             {/* Loading/Error states */}
             {loading && <p>Loading teachers...</p>}

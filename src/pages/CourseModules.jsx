@@ -84,11 +84,11 @@ const CourseModules = () => {
     return (
         <div className="min-h-screen bg-gray-50">
             {/* HERO SECTION */}
-            <div className="relative bg-teal-600 text-white py-10 px-6 sm:px-12 rounded-b-3xl shadow-md">
+            <div className="relative bg-teal-600 text-white py-10 pt-28 px-6 sm:px-12 rounded-b-3xl shadow-md">
                 {/* Back Button */}
                 <button
                     onClick={() => navigate(`/dashboard`)}
-                    className="absolute top-1 left-4 bg-white text-teal-600 px-4 py-2 rounded-md shadow hover:bg-gray-100 transition"
+                    className="absolute top-20 left-8 bg-white text-teal-600 px-4 py-2 rounded-md shadow hover:bg-gray-100 transition"
                 >
                     Back
                 </button>

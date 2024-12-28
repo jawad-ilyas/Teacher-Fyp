@@ -45,11 +45,11 @@ const ProfilePage = () => {
     };
 
     return (
-        <div className="relative max-w-xl mx-auto mt-10 px-6 py-8 bg-white shadow-md rounded-lg">
+        <div className="relative max-w-xl mx-auto mt-20 px-6 py-20 bg-white shadow-md rounded-lg">
             {/* Back Button (top-left corner) */}
             <button
                 onClick={() => navigate(-1)}
-                className="absolute top-4 left-4 text-gray-600 bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-md transition"
+                className="absolute top-8 left-4 text-gray-600 bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-md transition"
             >
                 &larr; Back
             </button>

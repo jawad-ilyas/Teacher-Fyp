@@ -1,11 +1,11 @@
-
+import resourceImage from "../assets/staticImages/resources1.png"
 const Resources = () => {
     return (
         <div className="font-sans text-gray-700">
         
 
             {/* HERO SECTION */}
-            <section className="bg-gray-50 py-12 md:py-20">
+            <section className="bg-gray-50 pt-12 md:py-40">
                 <div className="container mx-auto px-4 flex flex-col md:flex-row items-center">
                     <div className="flex-1 md:mr-8">
                         <h1 className="text-3xl md:text-4xl font-bold mb-4">
@@ -19,11 +19,7 @@ const Resources = () => {
                         </button>
                     </div>
                     <div className="flex-1 flex justify-center mt-8 md:mt-0">
-                        <img
-                            src="https://via.placeholder.com/400x300?text=Resources+Hero"
-                            alt="Resources Hero"
-                            className="rounded shadow-md"
-                        />
+                       
                     </div>
                 </div>
             </section>
@@ -47,7 +43,7 @@ const Resources = () => {
                     {/* Right image */}
                     <div className="flex-1 flex justify-center">
                         <img
-                            src="https://via.placeholder.com/400x300?text=Industry+Team"
+                            src={resourceImage}
                             alt="Industry Team"
                             className="rounded shadow-md"
                         />

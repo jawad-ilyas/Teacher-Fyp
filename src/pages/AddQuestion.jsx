@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createQuestion } from "../features/questionsSlice/QuestionsSlice";
 import { useNavigate } from "react-router-dom";
+
 const AddQuestion = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -30,6 +31,15 @@ const AddQuestion = () => {
         setQuestionData((prev) => ({ ...prev, [name]: value }));
     };
 
+    // 1) Add a new function to remove a test case
+    const removeTestCase = (type, index) => {
+        setQuestionData((prev) => {
+            const updatedTestCases = [...prev[type]];
+            updatedTestCases.splice(index, 1);
+            return { ...prev, [type]: updatedTestCases };
+        });
+    };
+
     const addTestCase = (type) => {
         const testCase = { input: "", output: "" };
         setQuestionData((prev) => ({
@@ -44,7 +54,7 @@ const AddQuestion = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-900 text-gray-100 font-mono p-6">
+        <div className="min-h-screen bg-gray-900 pt-20 text-gray-100 font-mono p-6">
             <div className="flex flex-row justify-between items-center">
                 <h1 className="text-xl font-bold text-green-400 mb-4">
                     Add New Coding Question
@@ -182,6 +192,13 @@ const AddQuestion = () => {
                   focus:ring-green-500
                 "
                             />
+                            {/* 2) Small cross (X) button to remove a specific test case */}
+                            <button
+                                onClick={() => removeTestCase("sampleTestCases", idx)}
+                                className="ml-2 text-red-500 hover:text-red-700 font-bold"
+                            >
+                                X
+                            </button>
                         </div>
                     ))}
                     <button
