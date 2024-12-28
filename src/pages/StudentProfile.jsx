@@ -138,6 +138,21 @@ const StudentProfile = () => {
                 )}
             </div>
 
+            {/* Password  Field */}
+            <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-600">Password</label>
+                {isEditing ? (
+                    <input
+                        type="password"
+                        className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
+                        
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                ) : (
+                    <p className="mt-1 text-gray-800 text-sm"></p>
+                )}
+            </div>
+
             {/* Additional fields (role, branding, etc.) can be similarly handled. */}
 
             <div className="mt-6 flex space-x-2">
