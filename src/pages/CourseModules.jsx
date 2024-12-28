@@ -87,15 +87,15 @@ const CourseModules = () => {
             <div className="relative bg-teal-600 text-white py-10 px-6 sm:px-12 rounded-b-3xl shadow-md">
                 {/* Back Button */}
                 <button
-                    onClick={() => navigate(`courses/${courseId}`)}
-                    className="absolute top-4 left-4 bg-white text-teal-600 px-4 py-2 rounded-md shadow hover:bg-gray-100 transition"
+                    onClick={() => navigate(`/dashboard`)}
+                    className="absolute top-1 left-4 bg-white text-teal-600 px-4 py-2 rounded-md shadow hover:bg-gray-100 transition"
                 >
                     Back
                 </button>
 
                 {/* Course Title / Subtitle */}
                 <div className="mt-8 sm:mt-0">
-                    <h1 className="text-3xl sm:text-4xl font-bold">
+                    <h1 className="text-xl pt-4 sm:text-2xl font-bold">
                         {course ? course.name : "Loading..."}
                     </h1>
                     <p className="mt-2 text-sm sm:text-base text-teal-100">

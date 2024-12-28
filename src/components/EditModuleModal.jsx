@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 const EditModuleModal = ({ isVisible, onClose, onSubmit, module }) => {
     const { register, handleSubmit, reset } = useForm();
@@ -24,6 +25,8 @@ const EditModuleModal = ({ isVisible, onClose, onSubmit, module }) => {
             course: module.course, // Course ID from module
         }); // Include the module and course IDs
         onClose(); // Close the modal after submission
+        toast.success("Module Are Updated successfully!");
+
     };
 
 

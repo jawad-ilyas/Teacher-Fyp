@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const AddStudentModal = ({ isVisible, onClose, onSubmit }) => {
     const {
@@ -12,11 +13,19 @@ const AddStudentModal = ({ isVisible, onClose, onSubmit }) => {
     const handleFormSubmit = async (data) => {
         try {
             console.log("[AddStudentModal] Submitting student data:", data);
+            // Wait for the parent 'onSubmit' to complete
             await onSubmit(data);
+
+            // If successful, show a toast
+            toast.success("Student added successfully!");
+
+            // Reset the form and close the modal
             reset();
             onClose();
         } catch (err) {
             console.error("Failed to add student:", err);
+            // Show an error toast
+            toast.error("Failed to add student!");
         }
     };
 

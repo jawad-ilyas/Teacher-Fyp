@@ -45,9 +45,17 @@ const AddQuestion = () => {
 
     return (
         <div className="min-h-screen bg-gray-900 text-gray-100 font-mono p-6">
-            <h1 className="text-xl font-bold text-green-400 mb-4">
-                Add New Coding Question
-            </h1>
+            <div className="flex flex-row justify-between items-center">
+                <h1 className="text-xl font-bold text-green-400 mb-4">
+                    Add New Coding Question
+                </h1>
+                <button
+                    onClick={() => navigate(`/dashboard`)}
+                    className=" bg-white text-teal-600 px-4 py-2 rounded-md shadow hover:bg-gray-100 transition"
+                >
+                    Back
+                </button>
+            </div>
 
             {/* Basic Information */}
             <div className="mb-6 border-b border-gray-700 pb-4">

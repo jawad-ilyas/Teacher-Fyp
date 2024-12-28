@@ -1,6 +1,24 @@
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 
+
+// images section 
+import advanceImage from "../assets/staticImages/advancelearingsectionimage.png"
+import reviewImage from "../assets/staticImages/reviewimage.png"
+import heroImage from "../assets/staticImages/heroimage.png"
+import group1 from "../assets/staticImages/Group1.png"
+import group2 from "../assets/staticImages/Group2.png"
+import group3 from "../assets/staticImages/Group3.png"
+import group4 from "../assets/staticImages/Group4.png"
+
+
+
+
+
+
+
+
+
 // ----- Replace with your actual clientId & clientSecret (or retrieve from .env) -----
 const JDOODLE_CLIENT_ID = "d662af665b47d314f1801d986e930514";
 const JDOODLE_CLIENT_SECRET = "2d26928100db356e53974d4f27dd0105d26f7db054dc13d0f06e023ba62b4216";
@@ -109,25 +127,25 @@ if __name__ == "__main__":
     const testimonials = [
         {
             id: 1,
-            userImg: "https://via.placeholder.com/80?text=User+1",
+            userImg: { reviewImage },
             text: "At our mission is to help you improve yourself and land your dream job. We have a sizable repository of interview resources.",
             location: "SAN FRANCISCO STATE",
         },
         {
             id: 2,
-            userImg: "https://via.placeholder.com/80?text=User+2",
+            userImg: { reviewImage },
             text: "In the past few years, our users have landed jobs at top companies around the world.",
             location: "SAN FRANCISCO STATE",
         },
         {
             id: 3,
-            userImg: "https://via.placeholder.com/80?text=User+3",
+            userImg: { reviewImage },
             text: "We have a sizable repository of interview resources for many companies.",
             location: "SAN FRANCISCO STATE",
         },
         {
             id: 4,
-            userImg: "https://via.placeholder.com/80?text=User+4",
+            userImg: { reviewImage },
             text: "Join our community and get the help you need to thrive in your career.",
             location: "SAN FRANCISCO STATE",
         },
@@ -144,12 +162,44 @@ if __name__ == "__main__":
 
     return (
         <div className="font-sans text-gray-700">
-     
 
-         
+
 
             {/* AI WRITING DETECTION SECTION */}
             <section className="py-12">
+                <div className="container space-x-4 mx-auto px-4 flex flex-col lg:flex-row-reverse items-center">
+                    {/* Left side */}
+                    <div className="flex-1 mb-8 lg:mb-0">
+                        <h2 className="text-2xl lg:text-3xl font-semibold mb-4">
+                            Deliver and Grade Your
+                            Assessments Anywhere                        </h2>
+                        <p className="text-gray-600 mb-6">
+                            Intelligent Evaluation helps you seamlessly administer and grade all of your assessments, whether online or in-class. Save time grading and get a clear picture of how your students are doing. 
+                        </p>
+                        <a
+                            href="#"
+                            className="inline-block text-teal-600 border-b border-teal-600 hover:text-teal-800 transition font-medium"
+                        >
+                            Learn More &rarr;
+                        </a>
+                    </div>
+
+                    {/* Right side */}
+                    <div className="flex-1 flex justify-center">
+                        <div className="relative group cursor-pointer">
+                            <img
+                                src={heroImage}
+                                alt="AI detection"
+                                className="rounded-md "
+                            />
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* AI WRITING DETECTION SECTION */}
+            <section className="py-12 bg-white">
                 <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center">
                     {/* Left side */}
                     <div className="flex-1 mb-8 lg:mb-0">
@@ -171,32 +221,85 @@ if __name__ == "__main__":
 
                     {/* Right side */}
                     <div className="flex-1 flex justify-center">
-                        <div className="relative group">
+                        <div className="relative group cursor-pointer">
                             <img
-                                src="https://via.placeholder.com/400x300?text=AI+Detection+Image"
+                                src={advanceImage}
                                 alt="AI detection"
-                                className="rounded-md shadow-lg transition-transform duration-300 group-hover:scale-105"
+                                className="rounded-md shadow-lg transition-transform duration-500 group-hover:scale-105"
                             />
-                            <div className="absolute top-4 right-4 bg-white rounded-full px-4 py-2 shadow">
-                                <span className="text-sm font-bold">AI<br />37%</span>
-                            </div>
+
                         </div>
                     </div>
                 </div>
             </section>
 
             {/* ... other sections (Use Your Existing Assignments, etc.) ... */}
-
             {/* START EXPLORING */}
-            <section className="py-12">
+            <section className="py-12 ">
                 <div className="container mx-auto px-4">
+                    <h2 className="text-2xl lg:text-3xl font-semibold mb-6 text-center">
+                        Use Your Existing Assignments
+                    </h2>
+                    <p className="text-gray-600 mb-4 text-center">
+                        No need to alter your assignments. Grade paper-based, digital, and code assignments in half the time.
+                    </p>
+                    <div className="flex flex-row justify-between items-center mt-8">
+
+                        <div className="flex flex-col items-center justify-center">
+
+                            <img src={group1} className="size-40" />
+                            <h2 className="text-base mt-4  font-semibold mb-6 text-center">
+                                Scan Student Work
+
+                            </h2>
+                            <p className="text-gray-400 mb-4 text-sm text-center">
+                                No need to alter your assignments. Grade paper-based, digital, and code assignments in half the time.
+                            </p>
+
+                        </div>
+                        <div className="flex flex-col items-center justify-center">
+
+                            <img src={group2} className="size-40" />
+                            <h2 className="text-base mt-4  font-semibold mb-6 text-center">
+Grade Submissions                            </h2>
+                            <p className="text-gray-400 mb-4 text-sm text-center">
+                                No need to alter your assignments. Grade paper-based, digital, and code assignments in half the time.
+                            </p>
+
+                        </div>
+                        <div className="flex flex-col items-center justify-center">
+
+                            <img src={group3} className="size-40" />
+                            <h2 className="text-base mt-4  font-semibold mb-6 text-center">
+Send & Export Grades                            </h2>
+                            <p className="text-gray-400 mb-4 text-sm text-center">
+                                No need to alter your assignments. Grade paper-based, digital, and code assignments in half the time.
+                            </p>
+
+                        </div>
+                        <div className="flex flex-col items-center justify-center">
+
+                            <img src={group4} className="size-40" />
+                            <h2 className="text-base mt-4  font-semibold mb-6 text-center">
+Get Detailed Analytics                            </h2>
+                            <p className="text-gray-400 mb-4 text-sm text-center">
+                                No need to alter your assignments. Grade paper-based, digital, and code assignments in half the time.
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+            {/* START EXPLORING */}
+            <section className="py-12 bg-white">
+                           <div className="container mx-auto px-4">
                     <h2 className="text-2xl lg:text-3xl font-semibold mb-6 text-center">
                         Start Exploring
                     </h2>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
                         {/* Left column */}
-                        <div>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                             {/* Some text sections */}
                             <div className="mb-8">
                                 <h3 className="text-xl font-bold mb-2">
@@ -229,7 +332,7 @@ if __name__ == "__main__":
                                 </a>
                             </div>
 
-                            <div>
+                            <div >
                                 <h3 className="text-xl font-bold mb-2">Developer</h3>
                                 <p className="text-gray-600 mb-4">
                                     Improve your coding skills and compete with others in our
@@ -239,30 +342,32 @@ if __name__ == "__main__":
                         </div>
 
                         {/* Right column: JDoodle Code Editor */}
-                        <div className="flex flex-col items-center">
+                        <div className="flex flex-row items-center">
                             {/* Language Tabs */}
-                            <div className="flex space-x-4 mb-4">
-                                {languages.map((lang) => (
-                                    <button
-                                        key={lang}
-                                        onClick={() => setActiveTab(lang)}
-                                        className={`px-3 py-1 rounded shadow transition-colors ${activeTab === lang
-                                            ? "bg-teal-600 text-white"
-                                            : "bg-white text-gray-600 hover:bg-gray-200"
-                                            }`}
-                                    >
-                                        {lang}
-                                    </button>
-                                ))}
-                            </div>
+                            <div className="w-10/12">
+                                <div className="flex items-center justify-center space-x-4 mb-4">
+                                    {languages.map((lang) => (
+                                        <button
+                                            key={lang}
+                                            onClick={() => setActiveTab(lang)}
+                                            className={`px-3 py-1 rounded shadow transition-colors ${activeTab === lang
+                                                ? "bg-teal-600 text-white"
+                                                : "bg-white text-gray-600 hover:bg-gray-200"
+                                                }`}
+                                        >
+                                            {lang}
+                                        </button>
+                                    ))}
+                                </div>
 
-                            {/* Code Editor */}
-                            <div className="w-full bg-gray-100 rounded shadow p-4 mb-4">
-                                <textarea
-                                    className="w-full h-48 p-2 text-sm border rounded focus:outline-none resize-none"
-                                    value={codeStore[activeTab]}
-                                    onChange={(e) => handleCodeChange(activeTab, e.target.value)}
-                                />
+                                {/* Code Editor */}
+                                <div className="w-full bg-gray-100 rounded shadow p-4 mb-4">
+                                    <textarea
+                                        className="w-full h-48 p-2 text-sm border rounded focus:outline-none resize-none"
+                                        value={codeStore[activeTab]}
+                                        onChange={(e) => handleCodeChange(activeTab, e.target.value)}
+                                    />
+                                </div>
                             </div>
 
                             {/* Run Output */}
@@ -278,16 +383,16 @@ if __name__ == "__main__":
                             )}
 
                             {/* Buttons */}
-                            <div className="flex space-x-2">
+                            <div className="flex flex-col space-y-2 ms-2 w-2/12">
                                 <button
-                                    className="bg-teal-600 text-white px-6 py-2 rounded hover:bg-teal-700 transition"
+                                    className="bg-teal-600 text-sm text-white px-6 py-2 rounded hover:bg-teal-700 transition"
                                     onClick={handleRunCode}
                                     disabled={loading}
                                 >
                                     {loading ? "Running..." : "Run Code"}
                                 </button>
                                 <button
-                                    className="bg-gray-200 text-gray-700 px-6 py-2 rounded hover:bg-gray-300 transition"
+                                    className="bg-gray-200 text-sm  text-gray-700 px-6 py-2 rounded hover:bg-gray-300 transition"
                                     onClick={handleClearOutput}
                                 >
                                     Clear Output
@@ -311,7 +416,8 @@ if __name__ == "__main__":
                         {/* Current testimonial */}
                         <div className="p-4 bg-gray-50 rounded shadow-sm w-full transition-all">
                             <img
-                                src={testimonials[testimonialIndex].userImg}
+                                src={reviewImage}
+                                // src={testimonials[testimonialIndex].userImg}
                                 alt={`User ${testimonials[testimonialIndex].id}`}
                                 className="mx-auto rounded-full mb-4"
                             />

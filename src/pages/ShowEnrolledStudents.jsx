@@ -155,7 +155,7 @@ const ShowEnrolledStudents = () => {
     };
 
     const handleViewInfo = (studentId) => {
-        navigate(`/students/${studentId}`);
+        navigate(`/course/${courseId}/students/${studentId}`);
     };
     const handleEditInfo = (studentId) => {
         navigate(`/students/${studentId}`);
@@ -282,7 +282,7 @@ const ShowEnrolledStudents = () => {
                 </div>
 
                 {/* Status Filter */}
-                <div className="flex items-center space-x-2">
+                {/* <div className="flex items-center space-x-2">
                     <select
                         value={statusFilter}
                         onChange={handleStatusFilterChange}
@@ -302,7 +302,7 @@ const ShowEnrolledStudents = () => {
                         <option value="active">Active</option>
                         <option value="inactive">Inactive</option>
                     </select>
-                </div>
+                </div> */}
 
                 {/* Sort Option */}
                 <div className="flex items-center space-x-2">
@@ -338,7 +338,7 @@ const ShowEnrolledStudents = () => {
                             <tr className="bg-gray-100 text-gray-600 uppercase text-xs tracking-wider">
                                 <th className="px-4 py-3 text-left">Name</th>
                                 <th className="px-4 py-3 text-left">Email</th>
-                                <th className="px-4 py-3 text-left">Enrolled Date</th>
+                                {/* <th className="px-4 py-3 text-left">Enrolled Date</th> */}
                                 <th className="px-4 py-3 text-left">Status</th>
                                 <th className="px-4 py-3 text-left">Actions</th>
                             </tr>
@@ -352,9 +352,9 @@ const ShowEnrolledStudents = () => {
                                     <td className="px-4 py-3 text-gray-600">
                                         {enroll.student.email}
                                     </td>
-                                    <td className="px-4 py-3 text-gray-600">
+                                    {/* <td className="px-4 py-3 text-gray-600">
                                         {enroll.enrolledDate || "N/A"}
-                                    </td>
+                                    </td> */}
                                     <td className="px-4 py-3">
                                         <StatusBadge status={enroll.status} />
                                     </td>

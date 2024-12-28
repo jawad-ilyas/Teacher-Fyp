@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { addCourse, updateCourse } from "../features/course/CourseSlice";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const Modal = ({ isVisible, onClose, initialValues = null }) => {
     const dispatch = useDispatch();
@@ -49,26 +50,36 @@ const Modal = ({ isVisible, onClose, initialValues = null }) => {
 
     // Submit handler
     const onSubmit = (data) => {
-        const formData = new FormData();
-        if (data.image && data.image.length > 0) {
-            formData.append("image", data.image[0]);
+
+        try {
+            const formData = new FormData();
+            if (data.image && data.image.length > 0) {
+                formData.append("image", data.image[0]);
+            }
+
+            const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+            formData.append("id", userInfo?.data?._id);
+            formData.append("name", data.name);
+            formData.append("description", data.description);
+            formData.append("category", data.category);
+
+            if (initialValues) {
+                dispatch(updateCourse({ id: initialValues._id, courseData: formData }));
+            } else {
+                dispatch(addCourse(formData));
+            }
+            toast.success("update course   successfully!");
+
+            reset();
+            setImagePreview(null);
+            onClose();
+        }
+        catch (err) {
+            console.error("Failed to add student:", err);
+            // Show an error toast
+            toast.error("Failed to update course");
         }
 
-        const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-        formData.append("id", userInfo?.data?._id);
-        formData.append("name", data.name);
-        formData.append("description", data.description);
-        formData.append("category", data.category);
-
-        if (initialValues) {
-            dispatch(updateCourse({ id: initialValues._id, courseData: formData }));
-        } else {
-            dispatch(addCourse(formData));
-        }
-
-        reset();
-        setImagePreview(null);
-        onClose();
     };
 
     // If not visible, don't render anything
