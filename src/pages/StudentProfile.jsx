@@ -8,15 +8,19 @@ import {
 } from "../features/student/studentSlice";
 
 const StudentProfile = () => {
-    const { studentId } = useParams(); // e.g. /students/:studentId
-    const { courseId } = useParams();  // e.g. /courses/:courseId
+    const { studentId } = useParams(); // from /students/:studentId
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const { currentStudent = "", loading, error, successMessage } = useSelector(
         (state) => state.student
     );
-
+    useEffect(() => {
+        if (currentStudent) {
+            setName(currentStudent.name || "");
+            setEmail(currentStudent.email || "");
+        }
+    }, [currentStudent]);
     // Local state for editing
     const [isEditing, setIsEditing] = useState(false);
     const [name, setName] = useState("");
@@ -29,15 +33,8 @@ const StudentProfile = () => {
         dispatch(fetchSingleStudent(studentId));
     }, [studentId, dispatch]);
 
-    // When currentStudent changes in Redux, update local states
-    useEffect(() => {
-        if (currentStudent) {
-            setName(currentStudent.name || "");
-            setEmail(currentStudent.email || "");
-            // We do NOT display or store the existing password, so we keep password field blank
-            setPassword("");
-        }
-    }, [currentStudent]);
+    // Whenever `currentStudent` changes, fill local states
+
 
     // Switch to edit mode
     const handleEdit = () => {
@@ -65,8 +62,7 @@ const StudentProfile = () => {
             }
 
             await dispatch(updateSingleStudent({ studentId, updates })).unwrap();
-
-            // After successful update, exit edit mode
+            // after successful update, exit edit mode
             setIsEditing(false);
         } catch (err) {
             console.error("Failed to update student:", err);
@@ -80,7 +76,7 @@ const StudentProfile = () => {
 
         try {
             await dispatch(deleteSingleStudent(studentId)).unwrap();
-            // After deleting, perhaps navigate back to an admin dashboard
+            // after delete, navigate away
             navigate("/somewhere-else");
         } catch (err) {
             console.error("Failed to delete student:", err);
@@ -98,17 +94,10 @@ const StudentProfile = () => {
     }
 
     return (
-        <div className="max-w-md mx-auto mt-12 bg-white p-6 rounded-lg shadow-lg">
-            <div className="flex flex-row justify-between items-center">
-                <h1 className="text-xl font-bold text-green-400 mb-4">Student Profile</h1>
-                <button
-                    onClick={() => navigate(`/courses/${courseId}/enrolled-students`)}
-                    className="bg-white text-teal-600 px-4 py-2 rounded-md shadow hover:bg-gray-100 transition"
-                >
-                    Back
-                </button>
-            </div>
+        <div className="max-w-2xl mx-auto mt-8 bg-white p-6 rounded shadow">
+            <h1 className="text-2xl font-bold mb-4">Student Profile</h1>
 
+            {/* Success message from the slice */}
             {successMessage && (
                 <p className="mb-4 text-sm text-green-600">{successMessage}</p>
             )}
@@ -120,7 +109,7 @@ const StudentProfile = () => {
                 </p>
             </div>
 
-            {/* Name Field */}
+            {/* Conditionally render either a read-only text or an editable input */}
             <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-600">Name</label>
                 {isEditing ? (
@@ -149,22 +138,9 @@ const StudentProfile = () => {
                 )}
             </div>
 
-            {/* NEW: Password Field (only visible in edit mode) */}
-            {isEditing && (
-                <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-600">New Password</label>
-                    <input
-                        type="password"
-                        className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Leave blank to keep the current password"
-                    />
-                </div>
-            )}
+            {/* Additional fields (role, branding, etc.) can be similarly handled. */}
 
-            {/* Actions */}
-            <div className="mt-6 flex justify-end space-x-2">
+            <div className="mt-6 flex space-x-2">
                 {isEditing ? (
                     <>
                         <button
