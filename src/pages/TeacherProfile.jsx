@@ -1,4 +1,4 @@
-// src/pages/TeacherProfile.jsx
+// Teacher Profile Page
 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,19 +8,15 @@ import {
     updateTeacher,
     updateTeacherImage,
 } from "../features/teacher/teacherSlice";
-import {
-    FaEdit,
-    FaTrash,
-    // For "Enrolled Students"
-} from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
+
 /**
  * Example "Delete picture" action:
  * - If you actually have an endpoint for deleting the teacher’s avatar,
  *   you can dispatch the appropriate Redux action here.
  */
 async function deleteTeacherImage(teacherId, dispatch) {
-    // e.g. dispatch(deleteTeacherImageAction({ teacherId }))
-    // For now, just a placeholder
+    // Placeholder for deleting teacher image
     console.log("Deleting teacher image for teacherId =", teacherId);
 }
 
@@ -31,21 +27,21 @@ const TeacherProfile = () => {
 
     const { teacher, loading, error } = useSelector((state) => state.teacher);
 
-    // Local states
+    // Local state variables
     const [profileName, setProfileName] = useState("");
     const [username, setUsername] = useState("");
     const [avatar, setAvatar] = useState("/images/default.jpg");
     const [status, setStatus] = useState("");
     const [about, setAbout] = useState("");
 
-    // On mount or teacherId changes
+    // Fetch teacher details on mount or teacherId changes
     useEffect(() => {
         if (teacherId) {
             dispatch(fetchTeacherById(teacherId));
         }
     }, [teacherId, dispatch]);
 
-    // Populate local form fields
+    // Populate local state with teacher data
     useEffect(() => {
         if (teacher) {
             setProfileName(teacher.name || "");
@@ -56,11 +52,12 @@ const TeacherProfile = () => {
         }
     }, [teacher, teacherId]);
 
-    // Handlers
+    // Navigate back to previous page
     const handleBack = () => {
         navigate(-1);
     };
 
+    // Save profile changes
     const handleSaveChanges = () => {
         if (!teacherId) return;
         const updates = {
@@ -68,11 +65,11 @@ const TeacherProfile = () => {
             slug: username,
             status,
             bio: about,
-            // any other fields you want to update
         };
         dispatch(updateTeacher({ teacherId, updates }));
     };
 
+    // Handle avatar image upload
     const handleImageUpload = (e) => {
         if (!teacherId) return;
         const file = e.target.files?.[0];
@@ -86,12 +83,11 @@ const TeacherProfile = () => {
         dispatch(updateTeacherImage({ teacherId, formData }));
     };
 
+    // Delete profile picture
     const handleDeletePicture = async () => {
         if (!teacherId) return;
-        // Reset avatar to default locally:
-        setAvatar("/images/default.jpg");
-        // Call your "delete" logic / Redux action
-        await deleteTeacherImage(teacherId, dispatch);
+        setAvatar("/images/default.jpg"); // Reset avatar to default
+        await deleteTeacherImage(teacherId, dispatch); // Call delete logic
     };
 
     if (loading) return <p>Loading teacher info...</p>;
@@ -99,24 +95,16 @@ const TeacherProfile = () => {
     if (!teacher) return <p>No teacher data found.</p>;
 
     return (
-        <div className="max-w-xl mx-auto py-8">
-            {/* Back button (not in screenshot, but requested) */}
-            <button
-                onClick={handleBack}
-                className="mb-6 bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300 transition"
-            >
-                &larr; Back
-            </button>
-
-            {/* Container */}
+        <div className="max-w-xl pt-20 mx-auto py-8">
+            {/* Page Container */}
             <div className="bg-white p-6 rounded shadow-md">
+
                 {/* Profile Picture Section */}
                 <div className="mb-6">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                         Profile picture
                     </label>
                     <div className="flex items-center space-x-4">
-                        {/* Avatar Preview */}
                         <img
                             src={avatar}
                             alt="Avatar"
@@ -124,21 +112,9 @@ const TeacherProfile = () => {
                         />
 
                         <div className="flex space-x-2">
-                            {/* Change Picture */}
-                            <label
-                                className="      w-10 
-              h-10 
-              flex 
-              items-center 
-              justify-center 
-              rounded-full 
-              bg-blue-100 
-              text-blue-600 
-              hover:bg-blue-200 
-              transition"
-                            >
+                            {/* Upload Picture */}
+                            <label className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 transition">
                                 <FaEdit className="w-4 h-4" />
-
                                 <input
                                     type="file"
                                     onChange={handleImageUpload}
@@ -146,23 +122,11 @@ const TeacherProfile = () => {
                                     accept="image/*"
                                 />
                             </label>
-                            {/* Delete Picture */}
 
+                            {/* Delete Picture */}
                             <button
                                 onClick={handleDeletePicture}
-                                title="Delete Course"
-                                className="
-              w-10 
-              h-10 
-              flex 
-              items-center 
-              justify-center 
-              rounded-full 
-              bg-red-100 
-              text-red-600 
-              hover:bg-red-200 
-              transition
-            "
+                                className="w-10 h-10 flex items-center justify-center rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition"
                             >
                                 <FaTrash className="w-4 h-4" />
                             </button>
@@ -202,21 +166,7 @@ const TeacherProfile = () => {
                     </p>
                 </div>
 
-                {/* Status Recently */}
-                <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Status recently
-                    </label>
-                    <input
-                        type="text"
-                        value={status}
-                        onChange={(e) => setStatus(e.target.value)}
-                        className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                        placeholder="On duty"
-                    />
-                </div>
-
-                {/* About me */}
+                {/* About Me Section */}
                 <div className="mb-6">
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                         About me
@@ -230,19 +180,17 @@ const TeacherProfile = () => {
                     ></textarea>
                 </div>
 
-                {/* Save changes button */}
-                <div className="flex justify-end">
+                {/* Action Buttons */}
+                <div className="flex justify-end items-center">
+                    <button
+                        onClick={handleBack}
+                        className="bg-gray-200 me-2 text-gray-700 px-4 py-2 rounded hover:bg-gray-300 transition"
+                    >
+                        &larr; Back
+                    </button>
                     <button
                         onClick={handleSaveChanges}
-                        className="
-              px-4
-              py-2
-              bg-teal-600
-              text-white
-              rounded
-              hover:bg-teal-700
-              transition
-            "
+                        className="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 transition"
                     >
                         Save changes
                     </button>

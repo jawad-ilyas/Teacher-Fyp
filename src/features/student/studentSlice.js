@@ -2,6 +2,12 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const API_URL = 'http://localhost:5000/api/v1/students';
+const extractErrorMessage = (error) => {
+    if (error.response && error.response.data && error.response.data.message) {
+        return error.response.data.message; // Backend-defined error message
+    }
+    return error.message || "Something went wrong!";
+};
 
 /* -------------------------------------------------------------------------- */
 /*                        FETCH SINGLE STUDENT                                */
@@ -13,7 +19,7 @@ export const fetchSingleStudent = createAsyncThunk(
             const response = await axios.get(`${API_URL}/${studentId}`);
             return response.data.data; // The student object
         } catch (error) {
-            return rejectWithValue(error.response?.data || 'Failed to fetch student');
+            return rejectWithValue(extractErrorMessage(error)); // Ensure string
         }
     }
 );
@@ -28,7 +34,7 @@ export const updateSingleStudent = createAsyncThunk(
             const response = await axios.put(`${API_URL}/${studentId}`, updates);
             return response.data.data; // updated student
         } catch (error) {
-            return rejectWithValue(error.response?.data || 'Failed to update student');
+            return rejectWithValue(extractErrorMessage(error)); // Consistent error format
         }
     }
 );
@@ -43,7 +49,7 @@ export const deleteSingleStudent = createAsyncThunk(
             await axios.delete(`${API_URL}/${studentId}`);
             return studentId; // Return the ID so we can remove from state if needed
         } catch (error) {
-            return rejectWithValue(error.response?.data || 'Failed to delete student');
+            return rejectWithValue(extractErrorMessage(error)); // Ensure string
         }
     }
 );
@@ -87,7 +93,7 @@ const studentSlice = createSlice({
             })
             .addCase(updateSingleStudent.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.payload;
+                state.error = action.payload?.message || action.payload;
             })
 
             // deleteSingleStudent

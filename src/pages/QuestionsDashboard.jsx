@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import { FaEye, FaEdit, FaTrash } from "react-icons/fa"; // Import required icons
 
 import {
     fetchAllQuestions,
@@ -268,7 +269,6 @@ const QuestionsDashboard = () => {
                                         key={question._id}
                                         className="border-b border-gray-700 hover:bg-gray-800 transition"
                                     >
-                                     
                                         <td className="p-4 text-green-200">
                                             {/* Link to admin question detail page */}
                                             <Link
@@ -283,50 +283,54 @@ const QuestionsDashboard = () => {
                                         <td className="p-4 text-purple-300 capitalize">
                                             {question.tags.join(" , ")}
                                         </td>
-                                        <td className="p-4">
+                                        <td className="p-4 flex gap-2">
                                             {/* VIEW */}
-                                            <button
+                                            <Link
+                                                to={`/admin/questions/${question._id}`}
                                                 className="
-                          px-3 py-1
-                          bg-green-600
-                          text-gray-100
-                          rounded
-                          mr-2
-                          hover:bg-green-500
-                          transition
-                        "
-                                                onClick={() => navigate(`/question/${question._id}`)}
+                      flex items-center justify-center
+                      w-8 h-8
+                      bg-green-600
+                      text-gray-100
+                      rounded
+                      hover:bg-green-500
+                      transition
+                    "
+                                                title="View"
                                             >
-                                                View
-                                            </button>
+                                                <FaEye />
+                                            </Link>
                                             {/* EDIT */}
                                             <button
                                                 className="
-                          px-3 py-1
-                          bg-yellow-600
-                          text-gray-100
-                          rounded
-                          mr-2
-                          hover:bg-yellow-500
-                          transition
-                        "
+                      flex items-center justify-center
+                      w-8 h-8
+                      bg-yellow-600
+                      text-gray-100
+                      rounded
+                      hover:bg-yellow-500
+                      transition
+                    "
                                                 onClick={() => handleEdit(question)}
+                                                title="Edit"
                                             >
-                                                Edit
+                                                <FaEdit />
                                             </button>
                                             {/* DELETE */}
                                             <button
                                                 className="
-                          px-3 py-1
-                          bg-red-600
-                          text-gray-100
-                          rounded
-                          hover:bg-red-500
-                          transition
-                        "
+                      flex items-center justify-center
+                      w-8 h-8
+                      bg-red-600
+                      text-gray-100
+                      rounded
+                      hover:bg-red-500
+                      transition
+                    "
                                                 onClick={() => handleDelete(question._id)}
+                                                title="Delete"
                                             >
-                                                Delete
+                                                <FaTrash />
                                             </button>
                                         </td>
                                     </tr>
@@ -334,10 +338,7 @@ const QuestionsDashboard = () => {
 
                                 {filteredQuestions.length === 0 && (
                                     <tr>
-                                        <td
-                                            colSpan={5}
-                                            className="p-4 text-center text-gray-400"
-                                        >
+                                        <td colSpan={5} className="p-4 text-center text-gray-400">
                                             No questions found.
                                         </td>
                                     </tr>

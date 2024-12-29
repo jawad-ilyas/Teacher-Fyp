@@ -50,9 +50,10 @@ const Modal = ({ isVisible, onClose, initialValues = null }) => {
 
     // Submit handler
     const onSubmit = (data) => {
-
         try {
             const formData = new FormData();
+
+            // Append image if provided
             if (data.image && data.image.length > 0) {
                 formData.append("image", data.image[0]);
             }
@@ -64,23 +65,24 @@ const Modal = ({ isVisible, onClose, initialValues = null }) => {
             formData.append("category", data.category);
 
             if (initialValues) {
+                // Update existing course
                 dispatch(updateCourse({ id: initialValues._id, courseData: formData }));
+                toast.success("Course updated successfully!");
             } else {
+                // Add new course
                 dispatch(addCourse(formData));
+                toast.success("New course created successfully!");
             }
-            toast.success("update course   successfully!");
 
             reset();
             setImagePreview(null);
             onClose();
+        } catch (err) {
+            console.error("Failed to process course:", err);
+            toast.error("Failed to process course");
         }
-        catch (err) {
-            console.error("Failed to add student:", err);
-            // Show an error toast
-            toast.error("Failed to update course");
-        }
-
     };
+
 
     // If not visible, don't render anything
     if (!isVisible) return null;

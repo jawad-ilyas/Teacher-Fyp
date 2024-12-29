@@ -107,7 +107,7 @@ function AdminQuestionDetail() {
                                     Input: {tc.input}
                                 </p>
                                 <p className="text-xs text-gray-400">
-                                    Expected: {tc.output}
+                                    Expected Output: {tc.output}
                                 </p>
                             </div>
                         ))}

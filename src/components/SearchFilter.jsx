@@ -49,6 +49,7 @@ const SearchFilter = () => {
     // Existing handler: Fetch All
     const handleFetchAllCourses = () => {
         dispatch(fetchAllCourses());
+        setSearchQuery("")
     };
 
     // Existing handler: Fetch My Courses
@@ -57,6 +58,7 @@ const SearchFilter = () => {
             alert("User information is missing. Please log in again.");
             return;
         }
+        setSearchQuery("")
         dispatch(searchCourses({ teacherId: userId }));
     };
 
@@ -291,7 +293,7 @@ const SearchFilter = () => {
                 </button>
 
                 {/* Refresh All */}
-                <button
+                {/* <button
                     onClick={handleFetchAllCourses}
                     title="Refresh All Courses"
                     className="
@@ -301,7 +303,7 @@ const SearchFilter = () => {
           "
                 >
                     <FaSync className="w-5 h-5" />
-                </button>
+                </button> */}
             </div>
 
             {/* RIGHT SIDE: SEARCH */}

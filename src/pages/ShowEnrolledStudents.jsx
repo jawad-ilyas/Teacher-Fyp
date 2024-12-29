@@ -59,7 +59,7 @@ const DropdownAction = ({ onView, onEdit, onDelete }) => {
                     >
                         View Info
                     </button>
-                    <button
+                    {/* <button
                         onClick={() => {
                             setOpen(false);
                             onEdit();
@@ -67,7 +67,7 @@ const DropdownAction = ({ onView, onEdit, onDelete }) => {
                         className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-50"
                     >
                         Edit Info
-                    </button>
+                    </button> */}
                     <button
                         onClick={() => {
                             setOpen(false);
@@ -87,36 +87,36 @@ const DropdownAction = ({ onView, onEdit, onDelete }) => {
  * Optional: A small badge component if you want color-coded status.
  * If you don't want color coding, you can remove or simplify this.
  */
-const StatusBadge = ({ status }) => {
-    let bgColor = "bg-gray-200";
-    let textColor = "text-gray-700";
-    const label = status; // e.g., "active" or "inactive"
+// const StatusBadge = ({ status }) => {
+//     let bgColor = "bg-gray-200";
+//     let textColor = "text-gray-700";
+//     const label = status; // e.g., "active" or "inactive"
 
-    if (status === "active") {
-        bgColor = "bg-green-100";
-        textColor = "text-green-700";
-    } else if (status === "inactive") {
-        bgColor = "bg-red-100";
-        textColor = "text-red-700";
-    }
+//     if (status === "active") {
+//         bgColor = "bg-green-100";
+//         textColor = "text-green-700";
+//     } else if (status === "inactive") {
+//         bgColor = "bg-red-100";
+//         textColor = "text-red-700";
+//     }
 
-    return (
-        <span
-            className={`
-        px-2
-        py-1
-        rounded-full
-        text-xs
-        font-medium
-        capitalize
-        ${bgColor}
-        ${textColor}
-      `}
-        >
-            {label}
-        </span>
-    );
-};
+//     return (
+//         <span
+//             className={`
+//         px-2
+//         py-1
+//         rounded-full
+//         text-xs
+//         font-medium
+//         capitalize
+//         ${bgColor}
+//         ${textColor}
+//       `}
+//         >
+//             {label}
+//         </span>
+//     );
+// };
 
 const ShowEnrolledStudents = () => {
     const navigate = useNavigate();
@@ -339,7 +339,7 @@ const ShowEnrolledStudents = () => {
                                 <th className="px-4 py-3 text-left">Name</th>
                                 <th className="px-4 py-3 text-left">Email</th>
                                 {/* <th className="px-4 py-3 text-left">Enrolled Date</th> */}
-                                <th className="px-4 py-3 text-left">Status</th>
+                                {/* <th className="px-4 py-3 text-left">Status</th> */}
                                 <th className="px-4 py-3 text-left">Actions</th>
                             </tr>
                         </thead>
@@ -355,9 +355,9 @@ const ShowEnrolledStudents = () => {
                                     {/* <td className="px-4 py-3 text-gray-600">
                                         {enroll.enrolledDate || "N/A"}
                                     </td> */}
-                                    <td className="px-4 py-3">
+                                    {/* <td className="px-4 py-3">
                                         <StatusBadge status={enroll.status} />
-                                    </td>
+                                    </td> */}
                                     <td className="px-4 py-3">
                                         <DropdownAction
                                             onView={() => handleViewInfo(enroll.student._id)}

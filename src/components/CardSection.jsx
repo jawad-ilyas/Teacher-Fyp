@@ -62,7 +62,7 @@ const CardSection = () => {
     if (courses.length === 0) {
         return <p className="text-center text-gray-500">No courses found.</p>;
     }
-    console.log("courses", courses)
+    // console.log("courses", courses)
     return (
         <div>
             {/* Course Cards */}

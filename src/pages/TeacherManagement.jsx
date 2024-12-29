@@ -47,7 +47,10 @@ const TeacherManagement = () => {
         setShowCoursesModal(false);
         setSelectedTeacher(null);
     };
-
+    // Navigate back to previous page
+    const handleBack = () => {
+        navigate(-1);
+    };
     return (
         <div className="container pt-24 mx-auto p-4">
             {/* Filter UI */}
@@ -64,10 +67,15 @@ const TeacherManagement = () => {
 
                     <div className="flex items-center space-x-3">
 
+                        <button
+                            onClick={handleBack}
+                            className="bg-gray-200 me-2 text-gray-700 px-4 py-2 rounded hover:bg-gray-300 transition"
+                        >
+                            &larr; Back
+                        </button>
 
-                      
 
-                        <select
+                        {/* <select
                             value={sortField}
                             onChange={(e) => setSortField(e.target.value)}
                             className="border p-2 rounded"
@@ -75,7 +83,7 @@ const TeacherManagement = () => {
                             <option value="none">No Sorting</option>
                             <option value="createdAtAsc">Oldest First</option>
                             <option value="createdAtDesc">Newest First</option>
-                        </select>
+                        </select> */}
                     </div>
                     <div className="flex items-center space-x-2">
                         <input

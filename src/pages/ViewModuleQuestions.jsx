@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSingleModule } from "../features/module/moduleSlice";
-
+import { Link } from "react-router-dom";
 const ViewModuleQuestions = () => {
     const { courseId, moduleId } = useParams();
     const dispatch = useDispatch();
@@ -47,9 +47,14 @@ const ViewModuleQuestions = () => {
         <div className="min-h-screen w-full pt-20 bg-gray-900 text-gray-200 font-mono">
             {/* Header */}
             <div className="flex justify-between items-center px-6 py-4 bg-gray-800 shadow-md">
-                <h1 className="text-xl font-bold text-green-400">
-                    Module: {currentModule.title}
-                </h1>
+                <div>
+                    <h1 className="text-xl font-bold text-green-400">
+                        Module: {currentModule.title}
+                    </h1>
+                    <h1 className="text-sm font-bold text-red-400">
+                        Description: {currentModule.description}
+                    </h1>
+                </div>
                 <button
                     onClick={handleBack}
                     className="
@@ -69,12 +74,28 @@ const ViewModuleQuestions = () => {
             {/* Info Section */}
             <div className="px-6 py-4 border-b border-gray-700 bg-gray-800 text-sm">
                 <p className="text-gray-400">
-                    Course ID: <span className="text-gray-300">{courseId}</span>
+                    Start Time:{" "}
+                    <span className="text-gray-300">
+                        {new Intl.DateTimeFormat("en-US", {
+                            dateStyle: "medium",
+                            timeStyle: "short",
+                        }).format(new Date(currentModule.startTime))}
+                    </span>
                 </p>
                 <p className="text-gray-400">
-                    Module ID: <span className="text-gray-300">{moduleId}</span>
+                    End Time:{" "}
+                    <span className="text-gray-300">
+                        {new Intl.DateTimeFormat("en-US", {
+                            dateStyle: "medium",
+                            timeStyle: "short",
+                        }).format(new Date(currentModule.endTime))}
+                    </span>
+                </p>
+                <p className="text-gray-400">
+                    Teacher Name: <span className="text-gray-300">{currentModule.teacher?.name}</span>
                 </p>
             </div>
+
 
             {/* Questions Table */}
             <div className="p-6">
@@ -104,7 +125,15 @@ const ViewModuleQuestions = () => {
                                             key={q._id}
                                             className="border-b border-gray-700 hover:bg-gray-700 transition"
                                         >
-                                            <td className="p-4 text-green-200">{q.title}</td>
+                                            <td className="p-4 text-green-200">
+                                                <Link
+                                                    to={`/admin/questions/${q._id}`}
+                                                    className="hover:underline capitalize"
+                                                >
+                                                    {q.title}
+                                                </Link>
+
+                                            </td>
                                             <td className="p-4 text-yellow-300">{q.difficulty}</td>
                                             <td className="p-4 text-blue-300">{q.category}</td>
                                             <td className="p-4 text-purple-300">

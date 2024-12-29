@@ -9,7 +9,7 @@ const Header = () => {
         <header className="bg-gradient-to-r from-darkGreenColor to-teal-500 text-white shadow-lg py-4 px-6 fixed top-0 left-0 w-full z-50">
             <div className="flex justify-between items-center max-w-7xl mx-auto">
                 <h1 className="text-3xl font-extrabold cursor-pointer">
-                    <Link to="/">MyBrand</Link>
+                    <Link to="/">IEVC</Link>
                 </h1>
                 <nav className="hidden md:flex space-x-6">
                     <Link

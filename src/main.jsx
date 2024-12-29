@@ -14,7 +14,7 @@ import Register from '../src/pages/Register';
 import Login from '../src/pages/Login.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import CourseModules from './pages/CourseModules.jsx';
-import ProtectedRoute from './components/ProtectedRoute'; // Import the ProtectedRoute component
+import ProtectedRoute from './components/ProtectedRoute';
 import ProfilePage from './pages/ProfilePage.jsx';
 import QuestionsDashboard from './pages/QuestionsDashboard.jsx';
 import AddQuestion from './pages/AddQuestion.jsx';
@@ -141,13 +141,24 @@ const router = createBrowserRouter([
       {
 
         path: "/addquestionsintomodule/:courseId/:moduleId",
-        element: (< AddQuestionsIntoModule />)
+        element: (
+          <ProtectedRoute>
+            < AddQuestionsIntoModule />
+          </ProtectedRoute>
+
+        )
 
       },
       {
 
         path: "/courses/:courseId/modules/:moduleId",
-        element: (< ViewModuleQuestions />)
+        element: (
+          <ProtectedRoute>
+            < ViewModuleQuestions />
+          </ProtectedRoute>
+
+
+        )
 
       },
       {
@@ -164,7 +175,13 @@ const router = createBrowserRouter([
       },
       {
         path: "/admin/questions/:questionId",
-        element: <AdminQuestionDetail />
+        element:
+          <ProtectedRoute>
+            <AdminQuestionDetail />
+          </ProtectedRoute>
+
+
+
       }
 
     ],
