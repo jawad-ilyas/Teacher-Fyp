@@ -27,9 +27,18 @@ import AddQuestionsIntoModule from './pages/AddQuestionsIntoModule.jsx';
 import ViewModuleQuestions from './pages/ViewModuleQuestions.jsx';
 import AboutUs from './pages/AboutUs.jsx';
 import Resources from './pages/Resources.jsx';
+import AdminQuestionDetail from './pages/AdminQuestionDetail.jsx';
 
 const router = createBrowserRouter([
   {
+    future: {
+      v7_startTransition: true,
+      v7_relativeSplatPath: true,
+      v7_fetcherPersist: true,
+      v7_normalizeFormMethod: true,
+      v7_partialHydration: true,
+      v7_skipActionErrorRevalidation: true,
+    },
     path: '/',
     element: <App />,
     children: [
@@ -153,6 +162,10 @@ const router = createBrowserRouter([
         element: (< Resources />)
 
       },
+      {
+        path: "/admin/questions/:questionId",
+        element: <AdminQuestionDetail />
+      }
 
     ],
   },

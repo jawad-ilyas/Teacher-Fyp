@@ -31,15 +31,6 @@ const AddQuestion = () => {
         setQuestionData((prev) => ({ ...prev, [name]: value }));
     };
 
-    // 1) Add a new function to remove a test case
-    const removeTestCase = (type, index) => {
-        setQuestionData((prev) => {
-            const updatedTestCases = [...prev[type]];
-            updatedTestCases.splice(index, 1);
-            return { ...prev, [type]: updatedTestCases };
-        });
-    };
-
     const addTestCase = (type) => {
         const testCase = { input: "", output: "" };
         setQuestionData((prev) => ({
@@ -48,8 +39,35 @@ const AddQuestion = () => {
         }));
     };
 
+    // If you'd like to remove an existing test case on the spot (using an 'X'),
+    // you can reuse the removeTestCase function from the previous snippet.
+    const removeTestCase = (type, index) => {
+        setQuestionData((prev) => {
+            const updatedTestCases = [...prev[type]];
+            updatedTestCases.splice(index, 1);
+            return { ...prev, [type]: updatedTestCases };
+        });
+    };
+
     const handleSubmit = () => {
-        dispatch(createQuestion(questionData));
+        // Filter out "empty" sample test cases where both input and output are blank
+        const sanitizedSampleTestCases = questionData.sampleTestCases.filter(
+            (testCase) => testCase.input.trim() !== "" || testCase.output.trim() !== ""
+        );
+
+        // (Optional) If you also want to sanitize hidden test cases, do the same:
+        const sanitizedHiddenTestCases = questionData.hiddenTestCases.filter(
+            (testCase) => testCase.input.trim() !== "" || testCase.output.trim() !== ""
+        );
+
+        // Build final data object
+        const finalData = {
+            ...questionData,
+            sampleTestCases: sanitizedSampleTestCases,
+            hiddenTestCases: sanitizedHiddenTestCases,
+        };
+
+        dispatch(createQuestion(finalData));
         navigate("/questionsdashboard");
     };
 
@@ -192,7 +210,7 @@ const AddQuestion = () => {
                   focus:ring-green-500
                 "
                             />
-                            {/* 2) Small cross (X) button to remove a specific test case */}
+                            {/* Optional 'X' button to remove an individual test case */}
                             <button
                                 onClick={() => removeTestCase("sampleTestCases", idx)}
                                 className="ml-2 text-red-500 hover:text-red-700 font-bold"

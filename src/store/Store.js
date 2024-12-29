@@ -8,6 +8,8 @@ import teacherReducer from "../features/teacher/teacherSlice";
 import teacherProfileSlice from '../features/teacherProfile/teacherProfileSlice';
 import enrolledStudentsReducer from "../features/student/enrolledStudentsSlice";
 import studentReducer from "../features/student/studentSlice"
+import compilerReducer from "../features/compiler/compilerSlice";
+
 export const store = configureStore({
     reducer: {
         user: userReducer,
@@ -19,6 +21,7 @@ export const store = configureStore({
         teacherProfile: teacherProfileSlice,
         enrolledStudents: enrolledStudentsReducer,
         student: studentReducer,
+        compiler: compilerReducer,
 
 
     },

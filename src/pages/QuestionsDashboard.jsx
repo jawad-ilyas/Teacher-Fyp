@@ -3,6 +3,7 @@ import { FaPlus } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 import {
     fetchAllQuestions,
@@ -192,7 +193,7 @@ const QuestionsDashboard = () => {
                     >
                         <option value="">All Categories</option>
                         {categories.map((category) => (
-                            <option className="bg-gray-800" key={category} value={category}>
+                            <option className="bg-gray-800 capitalize" key={category} value={category}>
                                 {category}
                             </option>
                         ))}
@@ -214,7 +215,7 @@ const QuestionsDashboard = () => {
                     >
                         <option value="">All Tags</option>
                         {tags.map((tag) => (
-                            <option className="bg-gray-800" key={tag} value={tag}>
+                            <option className="bg-gray-800 capitalize" key={tag} value={tag}>
                                 {tag}
                             </option>
                         ))}
@@ -267,11 +268,20 @@ const QuestionsDashboard = () => {
                                         key={question._id}
                                         className="border-b border-gray-700 hover:bg-gray-800 transition"
                                     >
-                                        <td className="p-4 text-green-200">{question.title}</td>
+                                     
+                                        <td className="p-4 text-green-200">
+                                            {/* Link to admin question detail page */}
+                                            <Link
+                                                to={`/admin/questions/${question._id}`}
+                                                className="hover:underline capitalize"
+                                            >
+                                                {question.title}
+                                            </Link>
+                                        </td>
                                         <td className="p-4 text-yellow-300">{question.difficulty}</td>
-                                        <td className="p-4 text-blue-300">{question.category}</td>
-                                        <td className="p-4 text-purple-300">
-                                            {question.tags.join(", ")}
+                                        <td className="p-4 text-blue-300 capitalize">{question.category}</td>
+                                        <td className="p-4 text-purple-300 capitalize">
+                                            {question.tags.join(" , ")}
                                         </td>
                                         <td className="p-4">
                                             {/* VIEW */}

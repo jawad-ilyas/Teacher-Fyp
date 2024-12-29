@@ -105,6 +105,22 @@ const SearchFilter = () => {
         dispatch(searchCourses(queryObject));
     };
 
+
+
+    // CLOSE FILTER MENU ON CHANGE
+    // const handleCategoryChange = (e) => {
+    //     const value = e.target.value === "All" ? "" : e.target.value;
+    //     setSelectedCategory(value);
+    //     // close dropdown
+    //     setShowFilterMenu(false);
+    // };
+
+    // const handleTeacherChange = (e) => {
+    //     setSelectedTeacherId(e.target.value);
+    //     // close dropdown
+    //     setShowFilterMenu(false);
+    // };
+
     return (
         <div
             className="
@@ -202,6 +218,7 @@ const SearchFilter = () => {
                                             e.target.value === "All" ? "" : e.target.value
                                         )
                                     }
+                                    // onChange={handleCategoryChange}
                                 >
                                     <option value="">All Categories</option>
                                     {categoriesLoading ? (
@@ -240,6 +257,8 @@ const SearchFilter = () => {
                     "
                                         value={selectedTeacherId}
                                         onChange={(e) => setSelectedTeacherId(e.target.value)}
+                                        // onChange={handleTeacherChange}
+
                                     >
                                         <option value="">All Teachers</option>
                                         {teachers.length > 0 ? (
