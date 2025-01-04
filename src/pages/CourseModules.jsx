@@ -185,6 +185,14 @@ const CourseModules = () => {
                                     <FaTrash className="mr-1" />
                                     Delete
                                 </button>
+                                <button
+                                    onClick={() => handleDelete(module._id)}
+                                    className="flex items-center text-gray-600 hover:text-red-600 text-sm"
+                                    title="Delete Module"
+                                >
+                                    <FaTrash className="mr-1" />
+                                    Submissions
+                                </button>
                             </div>
                         </div>
                     ))}
