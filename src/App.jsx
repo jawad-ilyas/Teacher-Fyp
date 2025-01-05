@@ -21,7 +21,8 @@ const App = () => {
     '/courses/:courseId/enrolled-students',
     '/course/:courseId/students/:studentId',
     '/addquestionsintomodule/:courseId/:moduleId',
-    '/courses/:courseId/modules/:moduleId'
+    '/courses/:courseId/modules/:moduleId',
+    "/adminsubmissions/:teacherId/:courseId/:moduleId",
   ];
 
   // Check if the current route matches any of the custom header routes

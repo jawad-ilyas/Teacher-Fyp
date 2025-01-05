@@ -114,6 +114,7 @@ const ViewModuleQuestions = () => {
                                     <th className="p-4 text-left font-medium">Difficulty</th>
                                     <th className="p-4 text-left font-medium">Category</th>
                                     <th className="p-4 text-left font-medium">Tags</th>
+                                    <th className="p-4 text-left font-medium">Marks</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -125,6 +126,7 @@ const ViewModuleQuestions = () => {
                                             key={q._id}
                                             className="border-b border-gray-700 hover:bg-gray-700 transition"
                                         >
+                                            {/* Question Title */}
                                             <td className="p-4 text-green-200">
                                                 <Link
                                                     to={`/admin/questions/${q._id}`}
@@ -132,16 +134,23 @@ const ViewModuleQuestions = () => {
                                                 >
                                                     {q.title}
                                                 </Link>
+                                            </td>
 
-                                            </td>
+                                            {/* Difficulty */}
                                             <td className="p-4 text-yellow-300">{q.difficulty}</td>
+
+                                            {/* Category */}
                                             <td className="p-4 text-blue-300">{q.category}</td>
-                                            <td className="p-4 text-purple-300">
-                                                {q.tags?.join(", ")}
-                                            </td>
+
+                                            {/* Tags */}
+                                            <td className="p-4 text-purple-300">{q.tags?.join(", ") || "N/A"}</td>
+
+                                            {/* Marks */}
+                                            <td className="p-4 text-blue-300">{subdoc.marks || "N/A"}</td>
                                         </tr>
                                     );
                                 })}
+
                             </tbody>
                         </table>
                     </div>

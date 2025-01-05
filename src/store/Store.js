@@ -10,6 +10,7 @@ import enrolledStudentsReducer from "../features/student/enrolledStudentsSlice";
 import studentReducer from "../features/student/studentSlice"
 import compilerReducer from "../features/compiler/compilerSlice";
 import adminSubmissionsReducer from "../features/adminSubmissions/adminSubmissionsSlice";
+import questionMarksSlice from '../features/questionMarks/questionMarksSlice';
 export const store = configureStore({
     reducer: {
         user: userReducer,
@@ -23,7 +24,7 @@ export const store = configureStore({
         student: studentReducer,
         compiler: compilerReducer,
         adminSubmissions: adminSubmissionsReducer,
-
+        questionMarks: questionMarksSlice
 
 
     },

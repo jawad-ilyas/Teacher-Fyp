@@ -90,11 +90,11 @@ export const updateModule = createAsyncThunk(
 );
 export const addQuestionsToModule = createAsyncThunk(
     "modules/addQuestionsToModule",
-    async ({ moduleId, courseId, questionIds }, { rejectWithValue }) => {
+    async ({ moduleId, courseId, questionsData }, { rejectWithValue }) => {
         try {
             const response = await axios.post(
                 `http://localhost:5000/api/v1/modules/${moduleId}/add-questions`,
-                { courseId, questionIds }
+                { courseId, questionsData }
             );
             return response.data.data; // updated module
         } catch (error) {
@@ -102,6 +102,7 @@ export const addQuestionsToModule = createAsyncThunk(
         }
     }
 );
+
 // Redux slice for modules
 const moduleSlice = createSlice({
     name: "modules",

@@ -5,15 +5,12 @@ import {
     fetchSubmissionsForAdmin,
     deleteSubmission,
 } from "../features/adminSubmissions/adminSubmissionsSlice";
+import { updateQuestionMarks } from "../features/questionMarks/questionMarksSlice"; // Import the update action
 import QuestionCard from "../components/QuestionCard";
 import QuestionModule from "../components/QuestionModule";
 import Swal from "sweetalert2";
-import {
-    ArrowLeftIcon,
-    ClockIcon,
-    DocumentArrowDownIcon,
-    CodeBracketIcon,
-} from "@heroicons/react/24/outline";
+import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+
 function AdminSubmissionsPage() {
     const dispatch = useDispatch();
     const { teacherId, courseId, moduleId } = useParams();
@@ -48,8 +45,6 @@ function AdminSubmissionsPage() {
                     .then((response) => {
                         if (response.meta.requestStatus === "fulfilled") {
                             Swal.fire("Deleted!", "The submission has been deleted.", "success");
-
-                            // Remove the deleted submission from the local state
                             dispatch(fetchSubmissionsForAdmin({ teacherId, courseId, moduleId }));
                         } else {
                             Swal.fire("Error!", "Failed to delete the submission.", "error");
@@ -62,10 +57,24 @@ function AdminSubmissionsPage() {
         });
     };
 
-
     const handleCloseQuestionModule = () => {
         setSelectedQuestion(null);
     };
+
+    const handleUpdateQuestion = (updatedQuestion) => {
+        dispatch(updateQuestionMarks({ questionId: updatedQuestion._id, ...updatedQuestion }))
+            .unwrap()
+            .then((response) => {
+                Swal.fire("Success!", "Marks updated successfully.", "success");
+                // Re-fetch the submissions after updating marks
+                dispatch(fetchSubmissionsForAdmin({ teacherId, courseId, moduleId }));
+            })
+            .catch((error) => {
+                console.error("Error updating marks:", error);
+                Swal.fire("Error!", "Failed to update marks. Please try again.", "error");
+            });
+    };
+
 
     useEffect(() => {
         if (teacherId && courseId && moduleId) {
@@ -83,7 +92,7 @@ function AdminSubmissionsPage() {
 
     if (error) {
         return (
-            <div className="bg-gray-800  pt-20 p-4 rounded shadow text-center">
+            <div className="bg-gray-800 pt-20 p-4 rounded shadow text-center">
                 <div className="flex items-center mb-6">
                     <button
                         onClick={() => window.history.back()}
@@ -94,32 +103,7 @@ function AdminSubmissionsPage() {
                     </button>
                 </div>
                 <h2 className="text-xl font-bold text-red-400 mb-4">No Submissions Found</h2>
-                <p className="text-gray-400">
-                    {error?.message}
-                </p>
-                <div className="mt-6 p-4 bg-gray-700 rounded">
-                    <p className="text-gray-500">
-                        Once submissions are available, they will appear here with detailed
-                        information about the progress.
-                    </p>
-                </div>
-            </div>
-        );
-    }
-
-    if (!submissions || submissions.length === 0) {
-        return (
-            <div className="bg-gray-800 p-4 rounded shadow text-center">
-                <h2 className="text-xl font-bold text-red-400 mb-4">No Submissions Found</h2>
-                <p className="text-gray-400">
-                    It seems there are no submissions available for this course yet.
-                </p>
-                <div className="mt-6 p-4 bg-gray-700 rounded">
-                    <p className="text-gray-500">
-                        Once submissions are available, they will appear here with detailed
-                        information about the progress.
-                    </p>
-                </div>
+                <p className="text-gray-400">{error?.message}</p>
             </div>
         );
     }
@@ -137,6 +121,7 @@ function AdminSubmissionsPage() {
                             <th className="p-3 border-b border-gray-600">Teacher</th>
                             <th className="p-3 border-b border-gray-600">Student</th>
                             <th className="p-3 border-b border-gray-600">Total Marks</th>
+                            <th className="p-3 border-b border-gray-600">Marks Gets</th>
                             <th className="p-3 border-b border-gray-600">Submission Time</th>
                             <th className="p-3 border-b border-gray-600 text-center">Actions</th>
                         </tr>
@@ -160,6 +145,9 @@ function AdminSubmissionsPage() {
                                     </td>
                                     <td className="p-3 border-b border-gray-600">
                                         {submission.totalMarks || "N/A"}
+                                    </td>
+                                    <td className="p-3 border-b border-gray-600">
+                                        {submission.maxTotalMarks || "N/A"}
                                     </td>
                                     <td className="p-3 border-b border-gray-600">
                                         {new Date(submission.createdAt).toLocaleString() || "N/A"}
@@ -192,9 +180,11 @@ function AdminSubmissionsPage() {
                                                     {submission.questions.map((question, index) => (
                                                         <QuestionCard
                                                             key={question._id}
+                                                            submissionId={submission._id}
                                                             question={question}
                                                             index={index}
                                                             onView={handleViewQuestion}
+                                                            onUpdate={handleUpdateQuestion}
                                                         />
                                                     ))}
                                                 </div>
@@ -202,6 +192,7 @@ function AdminSubmissionsPage() {
                                                     <QuestionModule
                                                         question={selectedQuestion}
                                                         onClose={handleCloseQuestionModule}
+                                                        onUpdate={handleUpdateQuestion}
                                                     />
                                                 )}
                                             </div>
