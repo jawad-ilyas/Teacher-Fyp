@@ -166,7 +166,7 @@ if __name__ == "__main__":
 
 
             {/* AI WRITING DETECTION SECTION */}
-            <section className="py-12">
+            <section className="py-12 pt-24">
                 <div className="container space-x-4 mx-auto px-4 flex flex-col lg:flex-row-reverse items-center">
                     {/* Left side */}
                     <div className="flex-1 mb-8 lg:mb-0">

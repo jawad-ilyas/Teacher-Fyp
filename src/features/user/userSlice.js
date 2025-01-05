@@ -44,20 +44,17 @@ export const registerUser = createAsyncThunk(
 const userSlice = createSlice({
     name: "user",
     initialState: {
-        userInfo: null,    // Will store the entire response (including token, role, etc.)
+        userInfo: null,
         loading: false,
         error: null,
     },
     reducers: {
-        // If you want a logout action, you could add something like:
-        // logout: (state) => {
-        //   state.userInfo = null;
-        //   localStorage.removeItem("userInfo");
-        // },
+        clearError: (state) => {
+            state.error = null;
+        },
     },
     extraReducers: (builder) => {
         builder
-            // Login
             .addCase(loginUser.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -65,19 +62,12 @@ const userSlice = createSlice({
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.loading = false;
                 state.userInfo = action.payload;
-
-                // Save user info to localStorage
-                // The shape of action.payload may be something like:
-                // { status: 200, message: '...', data: { _id, name, email, token, ... } }
-                // so adjust if needed. 
                 localStorage.setItem("userInfo", JSON.stringify(action.payload));
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
-
-            // Register
             .addCase(registerUser.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -93,5 +83,9 @@ const userSlice = createSlice({
             });
     },
 });
+
+export const { clearError } = userSlice.actions;
+
+
 
 export default userSlice.reducer;
