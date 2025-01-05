@@ -28,6 +28,7 @@ import ViewModuleQuestions from './pages/ViewModuleQuestions.jsx';
 import AboutUs from './pages/AboutUs.jsx';
 import Resources from './pages/Resources.jsx';
 import AdminQuestionDetail from './pages/AdminQuestionDetail.jsx';
+import AdminSubmissions from './pages/AdminSubmissions.jsx';
 
 const router = createBrowserRouter([
   {
@@ -182,7 +183,16 @@ const router = createBrowserRouter([
 
 
 
-      }
+      },
+      {
+        path: "/adminsubmissions/:teacherId/:courseId/:moduleId",
+        element: (
+          <ProtectedRoute>
+            <AdminSubmissions />
+          </ProtectedRoute>
+        )
+      },
+
 
     ],
   },

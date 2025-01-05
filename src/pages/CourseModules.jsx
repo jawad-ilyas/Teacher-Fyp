@@ -97,9 +97,10 @@ const CourseModules = () => {
                 <div className="mt-8 sm:mt-0">
                     <h1 className="text-xl pt-4 sm:text-2xl font-bold">
                         {course ? course.name : "Loading..."}
+                        {course ? course.name : "Loading..."}
                     </h1>
                     <p className="mt-2 text-sm sm:text-base text-teal-100">
-                        A brief description or tagline for the course can go here.
+                        {course ? course.description : "Loading..."}
                     </p>
                 </div>
             </div>
@@ -186,13 +187,14 @@ const CourseModules = () => {
                                     Delete
                                 </button>
                                 <button
-                                    onClick={() => handleDelete(module._id)}
-                                    className="flex items-center text-gray-600 hover:text-red-600 text-sm"
-                                    title="Delete Module"
+                                    onClick={() => navigate(`/adminsubmissions/${module?.teacher}/${module?.course}/${module._id}`)}
+                                    className="flex items-center text-gray-600 hover:text-teal-600 text-sm"
+                                    title="View Submissions"
                                 >
-                                    <FaTrash className="mr-1" />
+                                    <FaAddressBook className="mr-1" />
                                     Submissions
                                 </button>
+
                             </div>
                         </div>
                     ))}
