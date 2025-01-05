@@ -2,14 +2,19 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { FaEdit, FaTrash, FaAddressBook } from "react-icons/fa";
 import {
     fetchModulesByCourse,
     deleteModule,
     updateModule,
 } from "../features/module/moduleSlice";
 import EditModuleModal from "../components/EditModuleModal";
-
+import {
+    FaPlus, // Add Question 
+    FaEye, // View Questions 
+    FaEdit, // Edit Module
+    FaTrash, // Delete Module
+    FaFileAlt // View Submissions
+} from "react-icons/fa";
 const CourseModules = () => {
     const { courseId } = useParams();
     const dispatch = useDispatch();
@@ -97,7 +102,6 @@ const CourseModules = () => {
                 <div className="mt-8 sm:mt-0">
                     <h1 className="text-xl pt-4 sm:text-2xl font-bold">
                         {course ? course.name : "Loading..."}
-                        {course ? course.name : "Loading..."}
                     </h1>
                     <p className="mt-2 text-sm sm:text-base text-teal-100">
                         {course ? course.description : "Loading..."}
@@ -154,21 +158,22 @@ const CourseModules = () => {
 
                             {/* Action Buttons */}
                             <div className="flex items-center space-x-4">
+
                                 <button
                                     onClick={() => goToAddQuestions(courseId, module?._id)}
                                     className="flex items-center text-gray-600 hover:text-teal-600 text-sm"
-                                    title="Edit Module"
+                                    title="Add Questions"
                                 >
-                                    <FaAddressBook className="mr-1" />
+                                    <FaPlus className="mr-1" />
                                     Add
                                 </button>
                                 <button
                                     onClick={() => goToViewQuestions(courseId, module?._id)}
                                     className="flex items-center text-gray-600 hover:text-teal-600 text-sm"
-                                    title="Edit Module"
+                                    title="View Questions"
                                 >
-                                    <FaAddressBook className="mr-1" />
-                                    view
+                                    <FaEye className="mr-1" />
+                                    View
                                 </button>
                                 <button
                                     onClick={() => handleEdit(module)}
@@ -187,11 +192,13 @@ const CourseModules = () => {
                                     Delete
                                 </button>
                                 <button
-                                    onClick={() => navigate(`/adminsubmissions/${module?.teacher}/${module?.course}/${module._id}`)}
+                                    onClick={() =>
+                                        navigate(`/adminsubmissions/${module?.teacher}/${module?.course}/${module._id}`)
+                                    }
                                     className="flex items-center text-gray-600 hover:text-teal-600 text-sm"
                                     title="View Submissions"
                                 >
-                                    <FaAddressBook className="mr-1" />
+                                    <FaFileAlt className="mr-1" />
                                     Submissions
                                 </button>
 
