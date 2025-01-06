@@ -11,15 +11,32 @@ const ModuleModal = ({ isVisible, onClose, onSubmit }) => {
 
     const submitHandler = async (data) => {
         try {
+            const startTime = new Date(data.startTime);
+            const endTime = new Date(data.endTime);
+
+            // Validate that endTime is not less than startTime
+            if (endTime <= startTime) {
+                toast.error("End time must be greater than the start time.");
+                return; // Stop submission if validation fails
+            }
+
+            // Attempt to create the module
             await onSubmit(data);
             toast.success("A new module has been created!");
             reset();
             onClose();
         } catch (err) {
             console.error("Failed to create module:", err);
-            toast.error("Error creating module");
+
+            // Check if the error message indicates a duplicate title
+            if (err.response?.data?.message?.includes("already exists")) {
+                toast.error(err.response.data.message);
+            } else {
+                toast.error("Error creating module.");
+            }
         }
     };
+
 
     if (!isVisible) return null;
 
@@ -180,5 +197,8 @@ const ModuleModal = ({ isVisible, onClose, onSubmit }) => {
         </div>
     );
 };
+
+
+
 
 export default ModuleModal;

@@ -55,7 +55,7 @@ const CardSection = () => {
 
     // Display error state
     if (error) {
-        return <p className="text-center text-red-500">{error}</p>;
+        return <p className="text-center text-red-500">{error?.message}</p>;
     }
 
     // Display empty state

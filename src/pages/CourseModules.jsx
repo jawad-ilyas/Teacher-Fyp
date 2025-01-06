@@ -117,7 +117,7 @@ const CourseModules = () => {
                 </h2>
 
                 {loading && <p>Loading modules...</p>}
-                {error && <p className="text-red-500">{error}</p>}
+                {error && <p className="text-red-500">{error?.message}</p>}
 
                 {/* List of Modules as "cards" */}
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-16">
