@@ -6,7 +6,7 @@ import { useEffect } from "react";
 
 const Login = () => {
     const dispatch = useDispatch();
-    const { loading, error, userInfo } = useSelector((state) => state.user);
+    const { loading, error } = useSelector((state) => state.user);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -14,11 +14,11 @@ const Login = () => {
         dispatch(clearError());
 
         // If the user is already logged in, redirect to the dashboard
-        const storedUserInfo = localStorage.getItem("userInfo");
-        if (userInfo || storedUserInfo) {
+        const userInfo = localStorage.getItem("userInfo");
+        if (userInfo) {
             navigate("/dashboard"); // Replace with your desired route
         }
-    }, [dispatch, userInfo, navigate]);
+    }, [dispatch, navigate]);
 
     const {
         register,
