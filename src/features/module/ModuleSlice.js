@@ -32,16 +32,16 @@ export const fetchSingleModule = createAsyncThunk(
 // Async thunk to fetch all modules for a specific course
 export const fetchModulesByCourse = createAsyncThunk(
     "modules/fetchModulesByCourse",
-    async (courseId, { rejectWithValue }) => {
+    async ({ courseId, teacherId }, { rejectWithValue }) => {
         try {
             // Get teacher info from localStorage
-            const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-            const teacherId = userInfo?.data?._id;
+            // const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+            // const teacherId = userInfo?.data?._id;
 
-            // Validate teacher ID
-            if (!teacherId) {
-                throw new Error("Teacher ID is missing from localStorage.");
-            }
+            // // Validate teacher ID
+            // if (!teacherId) {
+            //     throw new Error("Teacher ID is missing from localStorage.");
+            // }
 
             // Make API request with courseId and teacherId
             const response = await axios.get(

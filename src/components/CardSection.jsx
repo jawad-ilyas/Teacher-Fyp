@@ -74,7 +74,7 @@ const CardSection = () => {
                         title={course?.name}
                         category={course?.category}
                         description={course?.description}
-                        teacher={course?.teacher?.name}
+                        teacher={course?.teacher}
                         image={course?.imageUrl}
                         onEdit={() => handleEdit(course)} // Open edit modal
                         onDelete={() => handleDelete(course._id)} // Trigger delete confirmation

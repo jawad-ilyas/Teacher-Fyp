@@ -111,7 +111,7 @@ const Card = ({
             duration-300
             pointer-events-auto
           "
-                    onClick={() => navigate(`/courses/${courseId}`)}
+                    onClick={() => navigate(`/courses/${courseId}/teachers/${teacher?._id}`)}
                 ></div>
             </div>
 
@@ -119,7 +119,7 @@ const Card = ({
             <div className="p-4 space-y-2 pointer-events-none">
                 <h3 className="text-xl font-bold text-gray-800">{title}</h3>
                 <p className="text-sm text-gray-600">Category: {category}</p>
-                <p className="text-sm text-gray-600">Teacher: {teacher}</p>
+                <p className="text-sm text-gray-600">Teacher: {teacher?.name}</p>
                 {description && (
                     <p className="text-sm text-gray-700">{description}</p>
                 )}

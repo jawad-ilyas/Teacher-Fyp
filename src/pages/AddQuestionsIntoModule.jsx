@@ -209,7 +209,7 @@ const AddQuestionsIntoModuleDashboard = () => {
                 >
                     <option value="">All Categories</option>
                     {categories.map((cat) => (
-                        <option key={cat} value={cat} className="bg-gray-800">
+                        <option key={cat} value={cat} className="bg-gray-800 capitalize">
                             {cat}
                         </option>
                     ))}
@@ -223,7 +223,7 @@ const AddQuestionsIntoModuleDashboard = () => {
                 >
                     <option value="">All Tags</option>
                     {tags.map((tag) => (
-                        <option key={tag} value={tag} className="bg-gray-800">
+                        <option key={tag} value={tag} className="bg-gray-800 capitalize">
                             {tag}
                         </option>
                     ))}

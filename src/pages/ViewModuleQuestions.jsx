@@ -18,7 +18,7 @@ const ViewModuleQuestions = () => {
 
     const handleBack = () => {
         // navigate to something like /courses/:courseId/modules
-        navigate(`/courses/${courseId}`);
+        navigate(-1)
     };
 
     if (loading) {

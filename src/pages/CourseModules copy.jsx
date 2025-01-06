@@ -16,12 +16,13 @@ import {
     FaFileAlt // View Submissions
 } from "react-icons/fa";
 const CourseModules = () => {
-    const { courseId, teacherId } = useParams();
+    const { courseId } = useParams();
+    const { teacherId } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
-    const verifyId = userInfo?.data?._id; // Correct key for user ID
+    let verifyId = userInfo?.data?._i;
 
     // State from Redux
     const { modules, loading, error } = useSelector((state) => state.modules);
@@ -65,6 +66,8 @@ const CourseModules = () => {
 
     // Submit edited module
     const handleEditSubmit = (updatedModule) => {
+
+
         dispatch(
             updateModule({
                 ...updatedModule,
@@ -75,15 +78,12 @@ const CourseModules = () => {
         );
         setEditModalVisible(false);
     };
-
     function goToAddQuestions(courseId, moduleId) {
         navigate(`/addquestionsintomodule/${courseId}/${moduleId}`);
     }
-
     function goToViewQuestions(courseId, moduleId) {
         navigate(`/courses/${courseId}/modules/${moduleId}`);
     }
-
     return (
         <div className="min-h-screen bg-gray-50">
             {/* HERO SECTION */}
@@ -123,14 +123,14 @@ const CourseModules = () => {
                         <div
                             key={module._id}
                             className="
-                                bg-white
-                                rounded-lg
-                                shadow-sm
-                                p-5
-                                relative
-                                hover:shadow-md
-                                transition
-                            "
+                bg-white
+                rounded-lg
+                shadow-sm
+                p-5
+                relative
+                hover:shadow-md
+                transition
+              "
                         >
                             {/* Module Title */}
                             <h3 className="text-lg font-semibold text-gray-900 mb-1">
@@ -138,7 +138,9 @@ const CourseModules = () => {
                             </h3>
 
                             {/* Description */}
-                            <p className="text-sm text-gray-600 mb-3">{module.description}</p>
+                            <p className="text-sm text-gray-600 mb-3">
+                                {module.description}
+                            </p>
 
                             {/* Times */}
                             <div className="text-xs text-gray-500 space-y-1 mb-4">
@@ -154,6 +156,7 @@ const CourseModules = () => {
 
                             {/* Action Buttons */}
                             <div className="flex items-center space-x-4">
+
                                 <button
                                     onClick={() => goToAddQuestions(courseId, module?._id)}
                                     className="flex items-center text-gray-600 hover:text-teal-600 text-sm"
@@ -170,29 +173,22 @@ const CourseModules = () => {
                                     <FaEye className="mr-1" />
                                     View
                                 </button>
-
-                                {/* Conditionally Render Edit and Delete Buttons */}
-                                {verifyId === teacherId && (
-                                    <>
-                                        <button
-                                            onClick={() => handleEdit(module)}
-                                            className="flex items-center text-gray-600 hover:text-teal-600 text-sm"
-                                            title="Edit Module"
-                                        >
-                                            <FaEdit className="mr-1" />
-                                            Edit
-                                        </button>
-                                        <button
-                                            onClick={() => handleDelete(module._id)}
-                                            className="flex items-center text-gray-600 hover:text-red-600 text-sm"
-                                            title="Delete Module"
-                                        >
-                                            <FaTrash className="mr-1" />
-                                            Delete
-                                        </button>
-                                    </>
-                                )}
-
+                                <button
+                                    onClick={() => handleEdit(module)}
+                                    className="flex items-center text-gray-600 hover:text-teal-600 text-sm"
+                                    title="Edit Module"
+                                >
+                                    <FaEdit className="mr-1" />
+                                    Edit
+                                </button>
+                                <button
+                                    onClick={() => handleDelete(module._id)}
+                                    className="flex items-center text-gray-600 hover:text-red-600 text-sm"
+                                    title="Delete Module"
+                                >
+                                    <FaTrash className="mr-1" />
+                                    Delete
+                                </button>
                                 <button
                                     onClick={() =>
                                         navigate(`/adminsubmissions/${module?.teacher}/${module?.course}/${module._id}`)
@@ -203,6 +199,7 @@ const CourseModules = () => {
                                     <FaFileAlt className="mr-1" />
                                     Submissions
                                 </button>
+
                             </div>
                         </div>
                     ))}
@@ -219,6 +216,5 @@ const CourseModules = () => {
         </div>
     );
 };
-
 
 export default CourseModules;

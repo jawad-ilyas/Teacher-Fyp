@@ -88,8 +88,8 @@ const Modal = ({ isVisible, onClose, initialValues = null }) => {
     if (!isVisible) return null;
 
     return (
-        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-            <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-2xl relative">
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 space-x-0!important">
+            <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-2xl relative ">
                 {/* Header */}
                 <div className="flex justify-between items-center mb-6">
                     <h3 className="text-xl font-bold text-gray-800">
@@ -191,7 +191,7 @@ const Modal = ({ isVisible, onClose, initialValues = null }) => {
                             Description
                         </label>
                         <textarea
-                            rows="4"
+                            rows="1"
                             {...register("description", {
                                 required: "Description is required",
                             })}
