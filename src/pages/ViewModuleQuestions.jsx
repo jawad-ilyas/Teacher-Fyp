@@ -1,24 +1,50 @@
 import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchSingleModule } from "../features/module/moduleSlice";
+import { fetchSingleModule, deleteQuestionFromModule } from "../features/module/moduleSlice";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import { FaTrash } from "react-icons/fa";
+
 const ViewModuleQuestions = () => {
     const { courseId, moduleId } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { currentModule, loading, error } = useSelector(
-        (state) => state.modules
-    );
+    const { currentModule, loading, error } = useSelector((state) => state.modules);
 
     useEffect(() => {
         dispatch(fetchSingleModule(moduleId));
     }, [dispatch, moduleId]);
 
     const handleBack = () => {
-        // navigate to something like /courses/:courseId/modules
-        navigate(-1)
+        navigate(-1);
+    };
+    const handleDeleteQuestion = (moduleId, questionId) => {
+        console.log("moduleId", moduleId, "questionId", questionId, "into view module quesiton ")
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(deleteQuestionFromModule({ moduleId, questionId }))
+                    .then((response) => {
+                        if (response.meta.requestStatus === "fulfilled") {
+                            Swal.fire("Deleted!", "The question has been deleted.", "success");
+                        } else {
+                            Swal.fire("Error!", "Failed to delete the question.", "error");
+                        }
+                    })
+                    .catch(() => {
+                        Swal.fire("Error!", "Failed to delete the question.", "error");
+                    });
+            }
+        });
     };
 
     if (loading) {
@@ -96,7 +122,6 @@ const ViewModuleQuestions = () => {
                 </p>
             </div>
 
-
             {/* Questions Table */}
             <div className="p-6">
                 <h2 className="text-lg font-semibold mb-4 text-green-300">
@@ -115,6 +140,7 @@ const ViewModuleQuestions = () => {
                                     <th className="p-4 text-left font-medium">Category</th>
                                     <th className="p-4 text-left font-medium">Tags</th>
                                     <th className="p-4 text-left font-medium">Marks</th>
+                                    <th className="p-4 text-center font-medium">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -147,10 +173,20 @@ const ViewModuleQuestions = () => {
 
                                             {/* Marks */}
                                             <td className="p-4 text-blue-300">{subdoc.marks || "N/A"}</td>
+
+                                            {/* Actions */}
+                                            <td className="p-4 text-center">
+                                                <button
+                                                    onClick={() => handleDeleteQuestion(moduleId, q._id)}
+                                                    className="text-red-500 hover:text-red-700 transition"
+                                                    title="Delete Question"
+                                                >
+                                                    <FaTrash />
+                                                </button>
+                                            </td>
                                         </tr>
                                     );
                                 })}
-
                             </tbody>
                         </table>
                     </div>

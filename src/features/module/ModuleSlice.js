@@ -103,6 +103,20 @@ export const addQuestionsToModule = createAsyncThunk(
     }
 );
 
+export const deleteQuestionFromModule = createAsyncThunk(
+    "modules/deleteQuestionFromModule",
+    async ({ moduleId, questionId }, { rejectWithValue }) => {
+        try {
+            const response = await axios.delete(
+                `http://localhost:5000/api/v1/modules/${moduleId}/questions/${questionId}`
+            );
+            return { moduleId, questionId }; // Return IDs to update state
+        } catch (error) {
+            return rejectWithValue(error.response?.data || "Failed to delete the question.");
+        }
+    }
+);
+
 // Redux slice for modules
 const moduleSlice = createSlice({
     name: "modules",
@@ -136,79 +150,100 @@ const moduleSlice = createSlice({
                 state.error = null;
                 state.successMessage = null;
             })
-        .addCase(addModule.fulfilled, (state, action) => {
-            state.loading = false;
-            state.modules.push(action.payload); // Add the new module to the state
-            state.successMessage = "Module added successfully!";
-        })
-        .addCase(addModule.rejected, (state, action) => {
-            state.loading = false;
-            state.error = action.payload;
-        })
+            .addCase(addModule.fulfilled, (state, action) => {
+                state.loading = false;
+                state.modules.push(action.payload); // Add the new module to the state
+                state.successMessage = "Module added successfully!";
+            })
+            .addCase(addModule.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
 
-        // Handle fetch modules by course
-        .addCase(fetchModulesByCourse.pending, (state) => {
-            state.loading = true;
-            state.error = null;
-        })
-        .addCase(fetchModulesByCourse.fulfilled, (state, action) => {
-            state.loading = false;
-            state.modules = action.payload; // Replace the module list with the fetched data
-        })
-        .addCase(fetchModulesByCourse.rejected, (state, action) => {
-            state.loading = false;
-            state.error = action.payload;
-        })
+            // Handle fetch modules by course
+            .addCase(fetchModulesByCourse.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchModulesByCourse.fulfilled, (state, action) => {
+                state.loading = false;
+                state.modules = action.payload; // Replace the module list with the fetched data
+            })
+            .addCase(fetchModulesByCourse.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
 
-        // Handle delete module
-        .addCase(deleteModule.pending, (state) => {
-            state.loading = true;
-            state.error = null;
-            state.successMessage = null;
-        })
-        .addCase(deleteModule.fulfilled, (state, action) => {
-            state.loading = false;
-            state.modules = state.modules.filter((module) => module._id !== action.payload); // Remove the deleted module
-            state.successMessage = "Module deleted successfully!";
-        })
-        .addCase(deleteModule.rejected, (state, action) => {
-            state.loading = false;
-            state.error = action.payload;
-        })
-        // Handle update module
-        .addCase(updateModule.pending, (state) => {
-            state.loading = true;
-            state.error = null;
-            state.successMessage = null;
-        })
-        .addCase(updateModule.fulfilled, (state, action) => {
-            state.loading = false;
-            const updatedIndex = state.modules.findIndex(
-                (module) => module._id === action.payload._id
-            );
-            if (updatedIndex !== -1) {
-                state.modules[updatedIndex] = action.payload; // Update the module in the state
-            }
-            state.successMessage = "Module updated successfully!";
-        })
-        .addCase(updateModule.rejected, (state, action) => {
-            state.loading = false;
-            state.error = action.payload;
-        })
-        .addCase(addQuestionsToModule.pending, (state) => {
-            state.loading = true;
-            state.error = null;
-        })
-        .addCase(addQuestionsToModule.fulfilled, (state, action) => {
-            state.loading = false;
-            // action.payload is the updated module
-            state.currentModule = action.payload;
-        })
-        .addCase(addQuestionsToModule.rejected, (state, action) => {
-            state.loading = false;
-            state.error = action.payload;
-        });
-},
+            // Handle delete module
+            .addCase(deleteModule.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+                state.successMessage = null;
+            })
+            .addCase(deleteModule.fulfilled, (state, action) => {
+                state.loading = false;
+                state.modules = state.modules.filter((module) => module._id !== action.payload); // Remove the deleted module
+                state.successMessage = "Module deleted successfully!";
+            })
+            .addCase(deleteModule.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            // Handle update module
+            .addCase(updateModule.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+                state.successMessage = null;
+            })
+            .addCase(updateModule.fulfilled, (state, action) => {
+                state.loading = false;
+                const updatedIndex = state.modules.findIndex(
+                    (module) => module._id === action.payload._id
+                );
+                if (updatedIndex !== -1) {
+                    state.modules[updatedIndex] = action.payload; // Update the module in the state
+                }
+                state.successMessage = "Module updated successfully!";
+            })
+            .addCase(updateModule.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(addQuestionsToModule.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(addQuestionsToModule.fulfilled, (state, action) => {
+                state.loading = false;
+                // action.payload is the updated module
+                state.currentModule = action.payload;
+            })
+            .addCase(addQuestionsToModule.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(deleteQuestionFromModule.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(deleteQuestionFromModule.fulfilled, (state, action) => {
+                state.loading = false;
+                const { moduleId, questionId } = action.payload;
+
+                if (state.currentModule && state.currentModule._id === moduleId) {
+                    state.currentModule.questions = state.currentModule.questions.filter(
+                        (q) => q.question._id !== questionId
+                    );
+                }
+
+                state.successMessage = "Question deleted successfully!";
+            })
+            .addCase(deleteQuestionFromModule.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            });
+
+    },
 });
 
 export default moduleSlice.reducer;
