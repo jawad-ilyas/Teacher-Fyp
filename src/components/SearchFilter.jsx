@@ -44,6 +44,21 @@ const SearchFilter = () => {
         }
     }, [activeTab, dispatch, userId]);
 
+    // Search or filter courses based on user input
+    useEffect(() => {
+        const queryObject = {};
+        if (searchQuery.trim()) queryObject.searchTerm = searchQuery.trim();
+        if (selectedCategory) queryObject.category = selectedCategory;
+        if (userRole === "admin" && selectedTeacherId) {
+            queryObject.teacherId = selectedTeacherId;
+        } else if (userRole === "teacher" && userId) {
+            queryObject.teacherId = userId;
+        }
+        if (activeTab === "allCourses" || activeTab === "myCourses") {
+            dispatch(searchCourses(queryObject));
+        }
+    }, [searchQuery, selectedCategory, selectedTeacherId, userRole, userId, activeTab, dispatch]);
+
     const handleFetchAllCourses = () => {
         setActiveTab("allCourses"); // Switch to allCourses tab
         dispatch(fetchAllCourses()); // Explicitly dispatch all courses fetch
@@ -102,9 +117,15 @@ const SearchFilter = () => {
                                     onChange={(e) => setSelectedCategory(e.target.value)}
                                 >
                                     <option value="">All Categories</option>
-                                    <option value="Data Science">Data Science</option>
-                                    <option value="Programming">Programming</option>
-                                    <option value="Web Development">Web Development</option>
+                                    {categoriesLoading ? (
+                                        <option>Loading...</option>
+                                    ) : categoriesError ? (
+                                        <option>Error fetching categories</option>
+                                    ) : categories.map((cat) => (
+                                        <option key={cat} value={cat}>
+                                            {cat}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
                             {userRole === "admin" && (

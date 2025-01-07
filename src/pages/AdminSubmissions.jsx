@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
     fetchSubmissionsForAdmin,
     deleteSubmission,
@@ -13,10 +13,15 @@ import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 
 function AdminSubmissionsPage() {
     const dispatch = useDispatch();
+    const navigate = useNavigate(); // To handle navigation
     const { teacherId, courseId, moduleId } = useParams();
     const { submissions, loading, error } = useSelector((state) => state.adminSubmissions);
     const [expandedSubmission, setExpandedSubmission] = useState(null);
     const [selectedQuestion, setSelectedQuestion] = useState(null);
+
+    const handleBack = () => {
+        navigate(-1); // Navigate to the previous page
+    };
 
     const handleViewQuestion = (question) => {
         setSelectedQuestion(question);
@@ -75,7 +80,6 @@ function AdminSubmissionsPage() {
             });
     };
 
-
     useEffect(() => {
         if (teacherId && courseId && moduleId) {
             dispatch(fetchSubmissionsForAdmin({ teacherId, courseId, moduleId }));
@@ -95,7 +99,7 @@ function AdminSubmissionsPage() {
             <div className="bg-gray-800 pt-20 p-4 rounded shadow text-center">
                 <div className="flex items-center mb-6">
                     <button
-                        onClick={() => window.history.back()}
+                        onClick={handleBack}
                         className="flex items-center text-sm text-gray-400 hover:text-gray-200 mr-4"
                     >
                         <ArrowLeftIcon className="w-5 h-5 mr-1" />
@@ -110,7 +114,22 @@ function AdminSubmissionsPage() {
 
     return (
         <div className="min-h-screen bg-gray-900 text-gray-200 p-6">
-            <h1 className="text-2xl font-bold text-green-400 mb-4">Admin Submissions</h1>
+
+            <div className="flex flex-row justify-between pt-20">
+                {/* Page Content */}
+                <h1 className="text-2xl font-bold text-green-400 mb-4"> Submissions</h1>
+                {/* Back Button */}
+                <div className="mb-4 flex items-center">
+                    <button
+                        onClick={handleBack}
+                        className="flex items-center px-4 py-2 bg-gray-600 text-gray-100 rounded hover:bg-gray-500 transition shadow-md"
+                    >
+                        <ArrowLeftIcon className="w-5 h-5 mr-2" />
+                        Back
+                    </button>
+                </div>
+
+            </div>
             <div className="overflow-x-auto">
                 <table className="min-w-full table-auto border-collapse bg-gray-800 text-left text-gray-200">
                     <thead>
