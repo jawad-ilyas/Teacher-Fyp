@@ -198,29 +198,14 @@ const SearchFilter = () => {
               "
                         >
                             {/* Category dropdown */}
-                            <div>
+                            {/* <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
                                     Category
                                 </label>
                                 <select
-                                    className="
-                    w-full
-                    px-3
-                    py-2
-                    border
-                    rounded-md
-                    text-sm
-                    focus:outline-none
-                    focus:ring-1
-                    focus:ring-teal-500
-                  "
+                                    className="w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-teal-500"
                                     value={selectedCategory}
-                                    onChange={(e) =>
-                                        setSelectedCategory(
-                                            e.target.value === "All" ? "" : e.target.value
-                                        )
-                                    }
-                                    // onChange={handleCategoryChange}
+                                    onChange={(e) => setSelectedCategory(e.target.value === "All" ? "" : e.target.value)}
                                 >
                                     <option value="">All Categories</option>
                                     {categoriesLoading ? (
@@ -237,7 +222,24 @@ const SearchFilter = () => {
                                         <option>No categories available</option>
                                     )}
                                 </select>
+
+                            </div> */}
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    Category
+                                </label>
+                                <select
+                                    className="w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-teal-500"
+                                    value={selectedCategory}
+                                    onChange={(e) => setSelectedCategory(e.target.value)}
+                                >
+                                    <option value="">All Categories</option>
+                                    <option value="Data Science">Data Science</option>
+                                    <option value="Programming">Programming</option>
+                                    <option value="Web Development">Web Development</option>
+                                </select>
                             </div>
+
 
                             {/* Teacher dropdown (only for admin) */}
                             {userRole === "admin" && (
@@ -259,7 +261,7 @@ const SearchFilter = () => {
                     "
                                         value={selectedTeacherId}
                                         onChange={(e) => setSelectedTeacherId(e.target.value)}
-                                        // onChange={handleTeacherChange}
+                                    // onChange={handleTeacherChange}
 
                                     >
                                         <option value="">All Teachers</option>
@@ -270,7 +272,7 @@ const SearchFilter = () => {
                                                 </option>
                                             ))
                                         ) : (
-                                            <option>No teachers found</option>
+                                            <option value="">No teachers found</option>
                                         )}
                                     </select>
                                 </div>
