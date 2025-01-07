@@ -157,22 +157,36 @@ const AddQuestionsIntoModuleDashboard = () => {
             Swal.fire("Error", "Could not add questions!", "error");
         }
     };
+    const handleBack = () => {
+        // Replace with your back navigation logic
+        navigate(-1); // If you're using React Router
+    };
 
     // -------------- RENDER --------------
     return (
         <div className="min-h-screen w-full pt-20 bg-gray-900 text-gray-200 font-mono">
             {/* Header */}
+            {/* Header */}
             <div className="flex justify-between items-center px-6 py-4 bg-gray-800 shadow-md">
                 <h1 className="text-xl font-bold text-green-400">
                     Add Questions into Module
                 </h1>
-                <button
-                    onClick={handleAddSelected}
-                    className="flex items-center px-4 py-2 bg-green-700 text-gray-100 rounded hover:bg-green-600 transition shadow-md"
-                >
-                    Save Selected
-                </button>
+                <div className="flex items-center space-x-4">
+                    <button
+                        onClick={handleBack}
+                        className="flex items-center px-4 py-2 bg-gray-600 text-gray-100 rounded hover:bg-gray-500 transition shadow-md"
+                    >
+                        Back
+                    </button>
+                    <button
+                        onClick={handleAddSelected}
+                        className="flex items-center px-4 py-2 bg-green-700 text-gray-100 rounded hover:bg-green-600 transition shadow-md"
+                    >
+                        Save Selected
+                    </button>
+                </div>
             </div>
+
 
             {/* Filter Row */}
             <div className="px-6 py-4 border-b border-gray-700 bg-gray-800">
@@ -180,8 +194,8 @@ const AddQuestionsIntoModuleDashboard = () => {
                 <div className="flex items-center space-x-2 mb-2">
                     <button
                         className={`px-4 py-2 rounded transition ${selectedDifficulty === ""
-                                ? "bg-gray-700 text-white"
-                                : "bg-gray-600 hover:bg-gray-700 text-gray-200"
+                            ? "bg-gray-700 text-white"
+                            : "bg-gray-600 hover:bg-gray-700 text-gray-200"
                             }`}
                         onClick={() => setSelectedDifficulty("")}
                     >
@@ -191,8 +205,8 @@ const AddQuestionsIntoModuleDashboard = () => {
                         <button
                             key={level}
                             className={`px-4 py-2 rounded transition ${selectedDifficulty === level
-                                    ? "bg-gray-700 text-white"
-                                    : "bg-gray-600 hover:bg-gray-700 text-gray-200"
+                                ? "bg-gray-700 text-white"
+                                : "bg-gray-600 hover:bg-gray-700 text-gray-200"
                                 }`}
                             onClick={() => setSelectedDifficulty(level)}
                         >
