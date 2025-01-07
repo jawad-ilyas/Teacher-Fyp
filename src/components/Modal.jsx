@@ -58,8 +58,8 @@ const Modal = ({ isVisible, onClose, initialValues = null }) => {
                 formData.append("image", data.image[0]);
             }
 
-            const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-            formData.append("id", userInfo?.data?._id);
+            const teacherinfo = JSON.parse(localStorage.getItem("teacherinfo"));
+            formData.append("id", teacherinfo?.data?._id);
             formData.append("name", data.name);
             formData.append("description", data.description);
             formData.append("category", data.category);
@@ -228,7 +228,7 @@ const Modal = ({ isVisible, onClose, initialValues = null }) => {
                     </div>
 
                     {/* Error & Success Messages */}
-                    {error && <p className="text-red-500 mt-2">{error}</p>}
+                    {error && <p className="text-red-500 mt-2">{error?.message}</p>}
                     {successMessage && <p className="text-green-500 mt-2">{successMessage}</p>}
                 </form>
             </div>

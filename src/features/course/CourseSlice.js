@@ -28,14 +28,14 @@ export const searchCoursesByUser = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             // Get user info from localStorage
-            const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-            if (!userInfo || !userInfo.data || !userInfo.data._id) {
+            const teacherinfo = JSON.parse(localStorage.getItem("teacherinfo"));
+            if (!teacherinfo || !teacherinfo.data || !teacherinfo.data._id) {
                 throw new Error("User information is missing");
             }
 
             // Fetch courses by userId
             const response = await axios.get(
-                `${API_URL}/searchcoursesbyuser?userId=${userInfo.data._id}`
+                `${API_URL}/searchcoursesbyuser?userId=${teacherinfo.data._id}`
             );
 
             return response.data.data;
@@ -110,11 +110,11 @@ export const addStudentToCourse = createAsyncThunk(
     "courses/addStudentToCourse",
     async ({ courseId, email }, { rejectWithValue }) => {
         try {
-            const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-            if (!userInfo) throw new Error("userInfo not found");
+            const teacherinfo = JSON.parse(localStorage.getItem("teacherinfo"));
+            if (!teacherinfo) throw new Error("teacherinfo not found");
 
-            const token = userInfo?.data?.token; // Get token from userInfo
-            const teacherId = userInfo?.data?._id; // Get teacher ID from userInfo
+            const token = teacherinfo?.data?.token; // Get token from teacherinfo
+            const teacherId = teacherinfo?.data?._id; // Get teacher ID from teacherinfo
 
             if (!token || !teacherId) {
                 throw new Error("Authentication details are incomplete");

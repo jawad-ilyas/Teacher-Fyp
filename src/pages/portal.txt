@@ -23,7 +23,7 @@ Sure! Let’s **map out** the **workflow** and **feature set** for the **student
    - We may create new or reuse some existing back-end endpoints (like “fetch enrolled courses by userId,” “fetch modules by courseId,” “fetch classmates,” “fetch stats,” etc.). If they don’t exist, we make new ones.
 
 5. **Flow** in the student portal:
-   1. **Student logs in** (like userInfo in localStorage).
+   1. **Student logs in** (like teacherinfo in localStorage).
    2. **Landing** or **Dashboard** shows the courses the student is in.
    3. **Click** a course → see list of modules/assignments. 
    4. **Within** a module, see coding questions, possibly “start” or “open” them if time is valid.

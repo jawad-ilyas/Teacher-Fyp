@@ -11,7 +11,7 @@ export const loginUser = createAsyncThunk(
                 "http://localhost:5000/api/v1/auth/login",
                 userData
             );
-            console.log("Login user response:", response?.data);
+            console.log("Login user response:", response?.data?.data);
             return response.data; // e.g., { status: 200, data: {...}, message: ... }
         } catch (error) {
             return rejectWithValue(
@@ -44,7 +44,7 @@ export const registerUser = createAsyncThunk(
 const userSlice = createSlice({
     name: "user",
     initialState: {
-        userInfo: null,
+        teacherinfo: null,
         loading: false,
         error: null,
     },
@@ -61,8 +61,8 @@ const userSlice = createSlice({
             })
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.loading = false;
-                state.userInfo = action.payload;
-                localStorage.setItem("userInfo", JSON.stringify(action.payload));
+                state.teacherinfo = action.payload;
+                localStorage.setItem("teacherinfo", JSON.stringify(action.payload));
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.loading = false;
@@ -74,8 +74,8 @@ const userSlice = createSlice({
             })
             .addCase(registerUser.fulfilled, (state, action) => {
                 state.loading = false;
-                state.userInfo = action.payload;
-                localStorage.setItem("userInfo", JSON.stringify(action.payload));
+                state.teacherinfo = action.payload;
+                localStorage.setItem("teacherinfo", JSON.stringify(action.payload));
             })
             .addCase(registerUser.rejected, (state, action) => {
                 state.loading = false;

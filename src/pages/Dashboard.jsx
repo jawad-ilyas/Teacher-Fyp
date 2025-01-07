@@ -1,4 +1,3 @@
-import Header from "../components/Header";
 import SearchFilter from "../components/SearchFilter";
 import CardSection from "../components/CardSection";
 

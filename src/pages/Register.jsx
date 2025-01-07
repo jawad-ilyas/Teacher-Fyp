@@ -6,18 +6,18 @@ import { useEffect } from 'react';
 
 const Register = () => {
     const dispatch = useDispatch();
-    const { loading, error, userInfo } = useSelector((state) => state.user);
+    const { loading, error, teacherinfo } = useSelector((state) => state.user);
     const navigate = useNavigate();
 
     useEffect(() => {
         // Clear previous errors and check if the user is already logged in
         dispatch(clearError());
 
-        const storedUserInfo = localStorage.getItem('userInfo');
-        if (userInfo || storedUserInfo) {
+        const storedteacherinfo = localStorage.getItem('teacherinfo');
+        if (teacherinfo) {
             navigate('/dashboard'); // Redirect to the dashboard if already logged in
         }
-    }, [dispatch, userInfo, navigate]);
+    }, [dispatch, navigate, teacherinfo]);
 
     const {
         register,
@@ -30,7 +30,7 @@ const Register = () => {
 
         const userData = {
             ...data,
-            role: 'admin', // Add a default role if required
+            role: 'teacher', // Add a default role if required
         };
 
         try {

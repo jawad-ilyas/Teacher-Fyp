@@ -7,7 +7,7 @@ const RegistrationForm = () => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const dispatch = useDispatch();
 
-    const { loading, error, userInfo } = useSelector((state) => state.user);
+    const { loading, error, teacherinfo } = useSelector((state) => state.user);
 
     const onSubmit = (data) => {
         // Dispatch the registerUser thunk
@@ -19,7 +19,7 @@ const RegistrationForm = () => {
             <h2 className="text-2xl font-semibold text-center mb-6">Register</h2>
 
             {error && <div className="mb-4 text-red-500">{error}</div>}
-            {userInfo && <div className="mb-4 text-green-500">Registration Successful!</div>}
+            {teacherinfo && <div className="mb-4 text-green-500">Registration Successful!</div>}
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 {/* Name Field */}

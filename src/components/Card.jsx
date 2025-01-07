@@ -30,11 +30,11 @@ const Card = ({
 
     // Add Module
     const handleAddModule = (moduleData) => {
-        const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+        const teacherinfo = JSON.parse(localStorage.getItem("teacherinfo"));
         const payload = {
             ...moduleData,
             courseId,
-            teacherId: userInfo?.data?._id,
+            teacherId: teacherinfo?.data?._id,
         };
         dispatch(addModule(payload));
         setIsModuleModalVisible(false);
@@ -43,11 +43,11 @@ const Card = ({
     // Add Student
     const handleAddStudent = async (studentData) => {
         try {
-            const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+            const teacherinfo = JSON.parse(localStorage.getItem("teacherinfo"));
             const payload = {
                 ...studentData,
                 courseId,
-                teacherId: userInfo?.data?._id,
+                teacherId: teacherinfo?.data?._id,
             };
             await dispatch(addStudentToCourse(payload)).unwrap();
             setIsAddStudentModalVisible(false);

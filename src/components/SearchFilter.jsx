@@ -19,7 +19,7 @@ const SearchFilter = () => {
     const [selectedTeacherId, setSelectedTeacherId] = useState("");
     const [showFilterMenu, setShowFilterMenu] = useState(false);
     const [activeTab, setActiveTab] = useState("allCourses"); // Track active tab ("allCourses" or "myCourses")
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    const userInfo = JSON.parse(localStorage.getItem("teacherinfo"));
     const userId = userInfo?.data?._id;
     const userRole = userInfo?.data?.role;
     const {
@@ -28,7 +28,7 @@ const SearchFilter = () => {
 
     // Initial load: Fetch all courses, categories, and teachers
     useEffect(() => {
-        dispatch(fetchAllCourses());
+        dispatch(searchCourses({ teacherId: userId }));
         dispatch(fetchCategories());
         dispatch(fetchTeachers());
     }, [dispatch]);
@@ -49,20 +49,17 @@ const SearchFilter = () => {
         const queryObject = {};
         if (searchQuery.trim()) queryObject.searchTerm = searchQuery.trim();
         if (selectedCategory) queryObject.category = selectedCategory;
-        if (userRole === "admin" && selectedTeacherId) {
+        if (selectedTeacherId) {
             queryObject.teacherId = selectedTeacherId;
-        } else if (userRole === "teacher" && userId) {
+        } else if (userId) {
             queryObject.teacherId = userId;
         }
-        if (activeTab === "allCourses" || activeTab === "myCourses") {
+        if (activeTab === "myCourses") {
             dispatch(searchCourses(queryObject));
         }
     }, [searchQuery, selectedCategory, selectedTeacherId, userRole, userId, activeTab, dispatch]);
 
-    const handleFetchAllCourses = () => {
-        setActiveTab("allCourses"); // Switch to allCourses tab
-        dispatch(fetchAllCourses()); // Explicitly dispatch all courses fetch
-    };
+
 
     const handleFetchMyCourses = () => {
         setActiveTab("myCourses"); // Switch to myCourses tab
@@ -83,13 +80,7 @@ const SearchFilter = () => {
     return (
         <div className="flex items-center justify-between bg-white shadow-sm rounded-lg px-4 py-2 space-x-4">
             <div className="flex items-center space-x-3">
-                <button
-                    title="Fetch All Courses"
-                    onClick={handleFetchAllCourses}
-                    className={`transition ${activeTab === "allCourses" ? "text-teal-600" : "text-gray-600 hover:text-teal-600"}`}
-                >
-                    <FaBars className="w-5 h-5" />
-                </button>
+
                 {(userRole === "admin" || userRole === "teacher") && (
                     <button
                         title="My Courses"

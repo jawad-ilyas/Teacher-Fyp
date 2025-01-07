@@ -23,6 +23,7 @@ const App = () => {
     '/addquestionsintomodule/:courseId/:moduleId',
     '/courses/:courseId/modules/:moduleId',
     "/adminsubmissions/:teacherId/:courseId/:moduleId",
+    "/admin/questions"
   ];
 
   // Check if the current route matches any of the custom header routes

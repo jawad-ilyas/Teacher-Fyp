@@ -18,7 +18,7 @@ const CustomHeader = () => {
 
     const handleLogout = () => {
         // Clear user information from localStorage
-        localStorage.removeItem("userInfo");
+        localStorage.removeItem("teacherinfo");
         // Redirect to login page
         navigate("/login");
     };
@@ -45,12 +45,7 @@ const CustomHeader = () => {
                     >
                         Questions
                     </p>
-                    <p
-                        onClick={() => navigate("/teacherdashboard")}
-                        className="cursor-pointer text-white font-medium hover:text-yellow-300 transition duration-300"
-                    >
-                        Teacher
-                    </p>
+                
 
                     {/* Profile picture with dropdown menu */}
                     <div className="relative">

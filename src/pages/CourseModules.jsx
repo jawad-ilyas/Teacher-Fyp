@@ -19,9 +19,9 @@ const CourseModules = () => {
     const { courseId, teacherId } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    const teacherinfo = JSON.parse(localStorage.getItem("teacherinfo"));
 
-    const verifyId = userInfo?.data?._id; // Correct key for user ID
+    const verifyId = teacherinfo?.data?._id; // Correct key for user ID
 
     // State from Redux
     const { modules, loading, error } = useSelector((state) => state.modules);

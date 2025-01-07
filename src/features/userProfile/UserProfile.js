@@ -8,21 +8,23 @@ export const fetchUserProfile = createAsyncThunk(
     "userProfile/fetchUserProfile",
     async (_, { rejectWithValue }) => {
         try {
-            const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-            if (!userInfo) throw new Error("userInfo not found");
+            const teacherinfo = JSON.parse(localStorage.getItem("teacherinfo"));
+            if (!teacherinfo) throw new Error("teacherinfo not found");
 
             // If your server structure is:
             // response.data => { status: 200, message: "...", data: { userData... } }
             // we typically need the token. 
-            const token = userInfo?.data?.token
-                || userInfo?.token;
+            const token = teacherinfo?.data?.token
+                || teacherinfo?.token;
             // depends on how your server response is shaped!
 
-            if (!token) throw new Error("JWT token not found in userInfo");
+            if (!token) throw new Error("JWT token not found in teacherinfo");
 
             const response = await axios.get("http://localhost:5000/api/v1/user/profile", {
                 headers: {
                     Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json", // Ensure proper content type
+
                 },
             });
 
@@ -42,11 +44,11 @@ export const updateUserProfile = createAsyncThunk(
     "userProfile/updateUserProfile",
     async (updatedData, { rejectWithValue }) => {
         try {
-            const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-            if (!userInfo) throw new Error("userInfo not found");
+            const teacherinfo = JSON.parse(localStorage.getItem("teacherinfo"));
+            if (!teacherinfo) throw new Error("teacherinfo not found");
 
-            const token = userInfo?.data?.token
-                || userInfo?.token;
+            const token = teacherinfo?.data?.token
+                || teacherinfo?.token;
             if (!token) throw new Error("JWT token not found");
 
             const response = await axios.put(
@@ -76,16 +78,16 @@ export const updateUserProfileImage = createAsyncThunk(
     "userProfile/updateUserProfileImage",
     async (formData, { rejectWithValue }) => {
         try {
-            const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-            console.log("userinfo ", userInfo?.data?.token)
-            if (!userInfo?.data?.token) {
+            const teacherinfo = JSON.parse(localStorage.getItem("teacherinfo"));
+            console.log("teacherinfo ", teacherinfo?.data?.token)
+            if (!teacherinfo?.data?.token) {
                 console.error("User is not logged in or token is missing.");
                 return rejectWithValue("User authentication failed.");
             }
 
             const config = {
                 headers: {
-                    Authorization: `Bearer ${userInfo?.data?.token}`,
+                    Authorization: `Bearer ${teacherinfo?.data?.token}`,
                     "Content-Type": "multipart/form-data",
                 },
             };
@@ -96,12 +98,12 @@ export const updateUserProfileImage = createAsyncThunk(
             }
 
             // Debug: Log the API endpoint and config
-            console.log(`API Endpoint: ${API_URL}/${userInfo?.data?._id}/updateUserProfileImage`);
+            console.log(`API Endpoint: ${API_URL}/${teacherinfo?.data?._id}/updateUserProfileImage`);
             console.log("Config Headers:", config.headers);
 
             // Make the API request
             const response = await axios.post(
-                `${API_URL}/${userInfo?.data?._id}/updateUserProfileImage`,
+                `${API_URL}/${teacherinfo?.data?._id}/updateUserProfileImage`,
                 formData,
                 config
             );

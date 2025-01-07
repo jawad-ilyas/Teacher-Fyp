@@ -14,8 +14,8 @@ const Login = () => {
         dispatch(clearError());
 
         // If the user is already logged in, redirect to the dashboard
-        const userInfo = localStorage.getItem("userInfo");
-        if (userInfo) {
+        const teacherinfo = localStorage.getItem("teacherinfo");
+        if (teacherinfo) {
             navigate("/dashboard"); // Replace with your desired route
         }
     }, [dispatch, navigate]);
@@ -31,6 +31,7 @@ const Login = () => {
 
         try {
             const resultAction = await dispatch(loginUser(data));
+            console.log("resultAction", resultAction);
             if (loginUser.fulfilled.match(resultAction)) {
                 navigate("/dashboard"); // Redirect to dashboard on successful login
             } else {

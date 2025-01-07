@@ -35,8 +35,8 @@ export const fetchModulesByCourse = createAsyncThunk(
     async ({ courseId, teacherId }, { rejectWithValue }) => {
         try {
             // Get teacher info from localStorage
-            // const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-            // const teacherId = userInfo?.data?._id;
+            // const teacherinfo = JSON.parse(localStorage.getItem("teacherinfo"));
+            // const teacherId = teacherinfo?.data?._id;
 
             // // Validate teacher ID
             // if (!teacherId) {
