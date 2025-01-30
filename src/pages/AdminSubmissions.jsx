@@ -16,6 +16,7 @@ function AdminSubmissionsPage() {
     const navigate = useNavigate(); // To handle navigation
     const { teacherId, courseId, moduleId } = useParams();
     const { submissions, loading, error } = useSelector((state) => state.adminSubmissions);
+    console.log("$$$$", submissions)
     const [expandedSubmission, setExpandedSubmission] = useState(null);
     const [selectedQuestion, setSelectedQuestion] = useState(null);
 
